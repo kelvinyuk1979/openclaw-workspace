@@ -1,0 +1,33 @@
+{
+  "polymarket": {
+    "api_key": "YOUR_POLYMARKET_API_KEY",
+    "api_secret": "YOUR_POLYMARKET_API_SECRET",
+    "wallet_address": "YOUR_WALLET_ADDRESS"
+  },
+  "telegram": {
+    "bot_token": "8652433933:AAEvdtokbbO8R-2zcPTaHx16Sjf9p_Od-gw",
+    "chat_id": "5710760402",
+    "enabled": true
+  },
+  "trading": {
+    "max_bet": 100,
+    "min_odds": 0.1,
+    "stop_loss": 0.2,
+    "take_profit": 0.5,
+    "max_positions": 5
+  },
+  "monitor": {
+    "scan_interval": 5,
+    "volume_min": 1000,
+    "markets": [
+      "politics",
+      "crypto",
+      "sports"
+    ]
+  },
+  "risk_management": {
+    "daily_limit": 500,
+    "position_limit": 5,
+    "max_drawdown": 0.3
+  }
+}
