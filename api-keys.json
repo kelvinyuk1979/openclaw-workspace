@@ -1,0 +1,8 @@
+{
+  "active": "primary",
+  "keys": {
+    "primary": "AIzaSyCh7XMJ_P2x3l-01PFE3f-8YO1tIFM-RxA",
+    "backup": ""
+  },
+  "description": "API 密钥配置 - 切换 active 字段来更换当前使用的密钥"
+}

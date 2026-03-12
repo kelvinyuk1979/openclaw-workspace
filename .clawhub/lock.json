@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skills": {
+    "akshare-stock": {
+      "version": "1.0.1",
+      "installedAt": 1773218523774
+    },
+    "self-improving-agent": {
+      "version": "3.0.1",
+      "installedAt": 1773299477117
+    }
+  }
+}
