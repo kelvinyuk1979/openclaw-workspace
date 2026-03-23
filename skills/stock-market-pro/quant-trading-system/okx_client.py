@@ -162,6 +162,80 @@ class OKXClient:
             print(f"⚠️ 获取 {symbol} K 线失败：{e}")
             return []
     
+    def open_position(self, symbol, side, size, leverage=10):
+        """开仓（合约交易）
+        
+        Args:
+            symbol: 币种（如 'BTC', 'ETH'）
+            side: 方向（'buy' 做多，'sell' 做空）
+            size: 数量（张数）
+            leverage: 杠杆（默认 10x）
+        
+        Returns:
+            dict: 订单结果 {'orderId': '...', 'status': 'filled'}
+        """
+        inst_id = f"{symbol}-USDT-SWAP"  # 永续合约
+        
+        # 设置杠杆
+        try:
+            self.request('POST', '/api/v5/account/set-leverage', {
+                'instId': inst_id,
+                'lever': str(leverage),
+                'mgnMode': 'cross'  # 全仓模式
+            })
+            print(f"✅ 设置 {symbol} 杠杆：{leverage}x")
+        except Exception as e:
+            print(f"⚠️ 设置杠杆失败：{e}")
+        
+        # 下单
+        try:
+            # posSide: long（做多）或 short（做空）
+            pos_side = 'long' if side == 'buy' else 'short'
+            
+            data = self.request('POST', '/api/v5/trade/order', {
+                'instId': inst_id,
+                'tdMode': 'cross',  # 全仓
+                'side': side,
+                'posSide': pos_side,
+                'sz': str(size),
+                'ordType': 'market'  # 市价单
+            })
+            
+            if data and data[0].get('sCode') == '0':
+                order_id = data[0].get('ordId')
+                print(f"✅ 开仓成功：{side.upper()} {symbol} {size} 张，订单 ID: {order_id}")
+                return {'orderId': order_id, 'status': 'submitted'}
+            else:
+                print(f"❌ 开仓失败：{data}")
+                return {'error': data}
+                
+        except Exception as e:
+            print(f"❌ 开仓异常：{e}")
+            return {'error': str(e)}
+    
+    def close_position(self, symbol, side, size):
+        """平仓
+        
+        Args:
+            symbol: 币种
+            side: 方向（与开仓相反）
+            size: 数量
+        """
+        return self.open_position(symbol, side, size)
+    
+    def get_order_info(self, symbol, order_id):
+        """获取订单信息"""
+        inst_id = f"{symbol}-USDT-SWAP"
+        try:
+            data = self.request('GET', '/api/v5/trade/order', {
+                'instId': inst_id,
+                'ordId': order_id
+            })
+            return data[0] if data else None
+        except Exception as e:
+            print(f"⚠️ 获取订单信息失败：{e}")
+            return None
+    
     def place_order(self, symbol, side, size, price=None, order_type='market'):
         """下单"""
         inst_id = f"{symbol}-USDT"
