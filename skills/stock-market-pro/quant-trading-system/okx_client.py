@@ -76,32 +76,61 @@ class OKXClient:
         except Exception as e:
             raise Exception(f"OKX 请求失败：{e}")
     
-    def get_balance(self):
-        """获取账户余额"""
+    def get_balance(self, detailed=False):
+        """获取账户余额
+        
+        Args:
+            detailed: 如果为 True，返回完整的余额详情（用于调试数据偏差）
+        """
         try:
             data = self.request('GET', '/api/v5/account/balance')
             if data:
-                usdt_balance = 0
+                result = {
+                    'USDT': 0,
+                    'total_eq': 0,
+                    'raw_details': {}  # 用于调试
+                }
+                
+                # 记录总权益原始值
+                total_eq_raw = data[0].get('totalEq', '0')
+                result['totalEq_raw'] = total_eq_raw
+                result['total_eq'] = float(total_eq_raw) if total_eq_raw and total_eq_raw.strip() else 0.0
+                
+                # 记录账户等级
+                result['acctLv'] = data[0].get('acctLv', 'unknown')
+                
                 for detail in data[0].get('details', []):
-                    if detail.get('ccy') == 'USDT':
-                        # 优先读取 availBal（简单账户），回退到 availEq（组合保证金账户）
+                    ccy = detail.get('ccy', 'UNKNOWN')
+                    # 记录每个币种的完整详情
+                    result['raw_details'][ccy] = {
+                        'availBal': detail.get('availBal', ''),
+                        'availEq': detail.get('availEq', ''),
+                        'cashBal': detail.get('cashBal', ''),
+                        'eq': detail.get('eq', ''),
+                        'frozenBal': detail.get('frozenBal', ''),
+                        'ordFrozen': detail.get('ordFrozen', ''),
+                        'upl': detail.get('upl', ''),
+                        'stgyEq': detail.get('stgyEq', '')
+                    }
+                    
+                    if ccy == 'USDT':
                         avail_bal = detail.get('availBal', '')
                         avail_eq = detail.get('availEq', '')
                         
-                        # 简单账户 (acctLv=1) 使用 availBal
                         if avail_bal and avail_bal.strip():
-                            usdt_balance = float(avail_bal)
+                            result['USDT'] = float(avail_bal)
+                            result['used_field'] = 'availBal'
                         elif avail_eq and avail_eq.strip():
-                            usdt_balance = float(avail_eq)
+                            result['USDT'] = float(avail_eq)
+                            result['used_field'] = 'availEq'
                         else:
-                            usdt_balance = 0.0
-                            
-                total_eq_raw = data[0].get('totalEq', '0')
-                total_eq = float(total_eq_raw) if total_eq_raw and total_eq_raw.strip() else 0.0
-                return {
-                    'USDT': usdt_balance,
-                    'total_eq': total_eq
-                }
+                            result['USDT'] = 0.0
+                            result['used_field'] = 'none'
+                
+                if detailed:
+                    return result
+                else:
+                    return {'USDT': result['USDT'], 'total_eq': result['total_eq']}
             return {'USDT': 0, 'total_eq': 0}
         except Exception as e:
             print(f"⚠️ 获取余额失败：{e}")
