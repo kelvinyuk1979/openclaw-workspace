@@ -15,7 +15,7 @@ app = Flask(__name__)
 WORKSPACE = Path(__file__).parent.parent
 POLYMARKET_DIR = WORKSPACE / 'polymarket-trading-system'
 ASHARE_DIR = WORKSPACE / 'a-share-trading-system'
-OKX_DIR = WORKSPACE / 'okx-trading-system'
+OKX_DIR = WORKSPACE / 'skills' / 'stock-market-pro' / 'quant-trading-system'
 
 
 def load_json(path: Path, default=None):

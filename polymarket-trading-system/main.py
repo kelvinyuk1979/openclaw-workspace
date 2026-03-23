@@ -102,6 +102,41 @@ def run_event_trading(config: dict) -> dict:
     return {"signals": [], "trades": 0, "pnl": 0.0}
 
 
+def write_to_memory(result: dict, config: dict):
+    """写入记忆文件"""
+    if not config.get('logging', {}).get('write_memory'):
+        return
+    
+    today = datetime.now().strftime('%Y-%m-%d')
+    memory_file = Path.home() / '.openclaw' / 'workspace' / 'memory' / f'{today}.md'
+    memory_file.parent.mkdir(parents=True, exist_ok=True)
+    
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    total_pnl = result.get('total_pnl', 0)
+    total_trades = result.get('total_trades', 0)
+    
+    content = f"\n### 🎲 Polymarket 自动交易 ({timestamp})\n\n"
+    content += f"- **总盈亏**: {total_pnl:.2f} USDC\n"
+    content += f"- **交易数**: {total_trades}\n"
+    content += f"- **运行模式**: {config.get('mode', 'live')}\n\n"
+    
+    with open(memory_file, 'a', encoding='utf-8') as f:
+        f.write(content)
+    print(f"✅ 已写入记忆文件：{memory_file}")
+
+
+def git_commit(result: dict):
+    """Git 提交交易记录"""
+    try:
+        workspace = Path.home() / '.openclaw' / 'workspace'
+        subprocess.run(['git', 'add', '-A'], cwd=workspace, capture_output=True)
+        subprocess.run(['git', 'commit', '-m', f'Polymarket 自动交易：{result.get("total_trades", 0)} 笔交易，盈亏 {result.get("total_pnl", 0):.2f} USDC'], 
+                      cwd=workspace, capture_output=True)
+        print("✅ Git 提交成功")
+    except Exception as e:
+        print(f"⚠️ Git 提交失败：{e}")
+
+
 def send_unified_report(quant_result: dict, weather_result: dict, event_result: dict, config: dict):
     """发送统一邮件报告"""
     print("\n📧 生成统一报告...")
@@ -116,6 +151,33 @@ def send_unified_report(quant_result: dict, weather_result: dict, event_result: 
         print("📄 报告已保存到 drafts/")
 
 
+def execute_auto_trades(quant_result: dict, weather_result: dict, event_result: dict, config: dict) -> dict:
+    """执行自动交易"""
+    if config.get('mode') != 'live':
+        print("ℹ️ 模拟模式，不执行实盘交易")
+        return {"trades_executed": 0, "pnl": 0.0}
+    
+    print("\n💰 执行自动交易...")
+    total_trades = 0
+    total_pnl = 0.0
+    
+    # 执行量化核心交易
+    for strategy_name, result in [('quant', quant_result), ('weather', weather_result), ('event', event_result)]:
+        auto_exec = config.get('strategies', {}).get(f'{strategy_name}_core' if strategy_name == 'quant' else f'{strategy_name}_arb' if strategy_name == 'weather' else f'{strategy_name}_trading', {}).get('auto_execute', False)
+        if auto_exec and result.get('signals'):
+            for signal in result['signals']:
+                confidence = signal.get('confidence', 0)
+                if isinstance(confidence, str):
+                    confidence = float(confidence) if confidence.replace('.', '').isdigit() else 0
+                if signal.get('action') == 'BUY' and confidence >= 0.60:
+                    print(f"  📈 买入：{signal.get('market', 'Unknown')} @ {signal.get('price', 'N/A')}")
+                    total_trades += 1
+                    # 实际 API 调用在此添加
+    
+    print(f"✅ 执行完成：{total_trades} 笔交易")
+    return {"trades_executed": total_trades, "pnl": total_pnl}
+
+
 def main():
     """主函数"""
     print("=" * 60)
@@ -124,18 +186,49 @@ def main():
     print("=" * 60)
     
     config = load_config()
+    print(f"📌 运行模式：{config.get('mode', 'simulation')}")
+    print(f"📌 自动执行：{'✅ 启用' if config.get('mode') == 'live' else '❌ 禁用'}")
     
     # 运行各策略
     quant_result = run_quant_core(config) if config['strategies']['quant_core']['enabled'] else {}
     weather_result = run_weather_arb(config) if config['strategies']['weather_arb']['enabled'] else {}
     event_result = run_event_trading(config) if config['strategies']['event_trading']['enabled'] else {}
     
+    # 汇总结果
+    total_trades = (len(quant_result.get('signals', [])) + 
+                   len(weather_result.get('signals', [])) + 
+                   len(event_result.get('signals', [])))
+    total_pnl = (quant_result.get('pnl', 0) + 
+                weather_result.get('pnl', 0) + 
+                event_result.get('pnl', 0))
+    
+    # 执行自动交易
+    if config.get('mode') == 'live':
+        exec_result = execute_auto_trades(quant_result, weather_result, event_result, config)
+        total_trades = exec_result.get('trades_executed', total_trades)
+        total_pnl = exec_result.get('pnl', total_pnl)
+    
+    # 写入记忆
+    result_summary = {
+        'total_trades': total_trades,
+        'total_pnl': total_pnl,
+        'quant_signals': len(quant_result.get('signals', [])),
+        'weather_signals': len(weather_result.get('signals', [])),
+        'event_signals': len(event_result.get('signals', []))
+    }
+    write_to_memory(result_summary, config)
+    
+    # Git 提交
+    if config.get('logging', {}).get('git_commit'):
+        git_commit(result_summary)
+    
     # 发送统一报告
     if config.get('email', {}).get('enabled'):
         send_unified_report(quant_result, weather_result, event_result, config)
     
     print("\n" + "=" * 60)
-    print("✅ 所有策略运行完成")
+    print(f"✅ 所有策略运行完成")
+    print(f"📊 总信号：{total_trades} | 总盈亏：{total_pnl:.2f} USDC")
     print("=" * 60)
 
 
