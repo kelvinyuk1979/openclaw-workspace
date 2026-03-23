@@ -84,9 +84,18 @@ class OKXClient:
                 usdt_balance = 0
                 for detail in data[0].get('details', []):
                     if detail.get('ccy') == 'USDT':
-                        avail_eq = detail.get('availEq', '0')
-                        # 处理空字符串情况
-                        usdt_balance = float(avail_eq) if avail_eq and avail_eq.strip() else 0.0
+                        # 优先读取 availBal（简单账户），回退到 availEq（组合保证金账户）
+                        avail_bal = detail.get('availBal', '')
+                        avail_eq = detail.get('availEq', '')
+                        
+                        # 简单账户 (acctLv=1) 使用 availBal
+                        if avail_bal and avail_bal.strip():
+                            usdt_balance = float(avail_bal)
+                        elif avail_eq and avail_eq.strip():
+                            usdt_balance = float(avail_eq)
+                        else:
+                            usdt_balance = 0.0
+                            
                 total_eq_raw = data[0].get('totalEq', '0')
                 total_eq = float(total_eq_raw) if total_eq_raw and total_eq_raw.strip() else 0.0
                 return {
