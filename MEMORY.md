@@ -1,37 +1,179 @@
 # MEMORY.md - 长期记忆
 
 ## 🤖 核心工作原则（最高优先级）
+## ⚠️ 第一原则：随时保持沟通 (2026-03-22 永久记录)
 
-**确立日期：** 2026-03-23
+**核心职责**：
+- ✅ 必须随时与用户保持沟通状态
+- ✅ 任何会打断对话的操作都必须让子代理执行
+- ❌ 不能遵守这一条，就不能做任何事情
 
-**第一条原则：** 全力保证与用户对话的响应进度，任何与对话无关的执行任务都必须由子代理完成。
+**什么是"会打断对话的操作"**：
+- 运行耗时命令（如 inkos write、python 脚本、文件处理）
+- 等待 API 响应（如 AI 生成、网络请求）
+- 批量文件操作（如创建/修改多个文件）
+- 任何需要等待超过几秒的任务
 
-**执行模式：**
-- **主代理（我）** → 只负责分析、规划、决策、与用户沟通、检查结果
-- **子代理** → 执行所有耗时操作（量化检查、数据获取、文件写入、Git 提交、API 调用等）
+**正确工作流**：
+用户提出需求 → 主体确认方案 → spawn 子代理执行 → 
+主体继续与用户沟通 → 子代理完成后汇报 → 
+主体检查结果 → 转达给用户
 
-**目的：** 确保用户对话不被阻塞，响应速度优先。
+
+
+**违反后果**：
+- 用户无法中断/调整方向
+- 主体变成"黑箱"，用户不知道在做什么
+- 失去交互性，违背 OpenClaw 的设计初衷
+
+
+**这条规则高于一切其他规则。不能遵守，就什么都不做。**
+
+---
+
+## 🎤 语音对话设置
+
+**默认声音**: `Yue (Premium)` — 普通话高质量女声
+
+当用户要求语音对话或朗读时：
+1. 使用 macOS 自带 `say` 命令
+2. 默认声音：`say -v "Yue (Premium)" "文本"`
+3. 无需 API Key，开箱即用
+
+**其他可用声音**:
+- `Tingting` — 标准普通话（备用）
+- `Sinji` — 粤语
+- `Samantha` — 英文女声
 
 ---
 
-## 📦 归档指令（2026-03-23）
+## 📸 摄像头功能
 
-**用户指令：** 以后我说"归档"，就用 Ontology 技能帮我归档。
+**工具**: `imagesnap` (已安装)
+**设备**: MacBook Air 相机
 
-**执行方式：**
-- 触发词："归档"
-- 工具：Ontology 技能
-- 位置：`/Users/kelvin/.openclaw/workspace/skills/ontology/memory/ontology/`
-- 格式：JSONL（graph.jsonl）
-
-### 已归档文档
-
-| ID | 标题 | 归档时间 |
-|----|------|----------|
-| `docu_15a6a05e` | 股票分析框架（华尔街风格） | 2026-03-23 |
-| `docu_5dabbed2` | Stock Market Pro 专业股票分析 | 2026-03-23 |
+使用方式：
+- 拍照：`imagesnap -o <路径>.jpg && open <路径>`
+- 列出设备：`imagesnap -l`
 
 ---
+
+
+
+## ⚙️ 系统配置
+
+**模型**: qwen/qwen3.5-plus
+**Node.js**: 已修复路径问题（软链接到 /opt/homebrew/bin）
+
+---
+
+## 🧠 模型上下文配置 (2026-03-16 更新)
+
+**Qwen3.5-Plus 上下文窗口**：
+- **配置值**: `contextWindow: 1000000` (1M tokens)
+- **实际显示**: ~977k tokens (OpenClaw 保留 buffer)
+- **maxTokens**: 64000 (单次响应上限)
+- **配置位置**: `~/.openclaw/openclaw.json` → `models.providers.qwen.models[]`
+
+**配置详情**：
+```json
+{
+  "providers": {
+    "qwen": {
+      "models": [{
+        "id": "qwen3.5-plus",
+        "name": "Qwen 3.5 Plus",
+        "contextWindow": 1000000,
+        "maxTokens": 64000
+      }]
+    }
+  }
+}
+```
+
+**默认模型链**：
+1. 主模型：`google/gemini-3.1-pro-preview` (1024k)
+2. Fallback #1: `google/gemini-3.1-pro-preview`
+3. Fallback #2: `qwen-portal/qwen3.5-plus` (977k)
+
+---
+
+## 🔄 模型故障转移配置 (2026-03-22 更新)
+
+**主模型**: `qwen-portal/qwen3.5-plus`
+
+**Fallback 链**（按顺序）:
+1. `qwen-portal/qwen3.5-plus` (主模型)
+2. `qwen-portal/glm-5` (智谱 - 文本生成/深度思考)
+3. `qwen-portal/kimi-k2.5` (Kimi - 文本生成/深度思考/视觉理解)
+4. `qwen-portal/MiniMax-M2.5` (MiniMax - 文本生成/深度思考)
+5. `google/gemini-3.1-pro-preview` (Gemini - 最后备用)
+
+**特性**:
+- ✅ 主模型失败时自动切换，按顺序尝试
+- ✅ 所有备用模型都配置在 `~/.openclaw/openclaw.json`
+- ✅ 熔断器保护（连续失败会触发半开重试）
+
+**手动切换命令**:
+```bash
+openclaw models set qwen-portal/glm-5          # 切到 glm-5
+openclaw models set qwen-portal/kimi-k2.5      # 切到 kimi
+openclaw models set qwen-portal/qwen3.5-plus   # 切回 qwen
+```
+
+## ⚠️ 错误记录 - 更新检查流程 (2026-03-17)
+
+**问题**：用户问"今天 openclaw 更新了吗"，我直接根据 `openclaw status` 输出中的"latest 2026.3.13"判断没有更新，但没有实际运行检查命令。
+
+**教训**：
+- 不要根据 status 输出推测，要实际运行 `openclaw update --dry-run` 来确认
+- 先检查再下结论，不要跳过验证步骤
+
+**正确流程**：
+```bash
+openclaw update --dry-run  # 检查是否有新版本
+# 输出会显示 Current version 和 Target version
+# 如果两者相同 = 无更新
+```
+
+**已记住**：以后回答更新问题，必须先跑 `update --dry-run` 再给结论。
+
+---
+
+
+
+
+
+**InkOS 版本检查规则**：
+- 不要每次自动检查更新
+- 只有用户明确要求检查时，才检查版本更新
+- 检查命令：`npm view @actalk/inkos version`
+- 更新命令：`npm install -g @actalk/inkos@latest`
+
+---
+
+## 📚 归档偏好 (2026-03-22 永久记录)
+
+**当用户说"归档"时，使用 Ontology 记录**：
+
+- ✅ 项目进度 → 创建 Note 实体，关联到项目
+- ✅ 重要决策 → 创建 Note 实体，标签"决策"
+- ✅ 角色/设定 → 创建 Person/Note 实体
+- ✅ 任务状态 → 更新 Task 实体的 status
+
+**Self-Improvement 用途**：
+- 仅用于记录错误、教训、踩坑经验
+- 文件位置：`.learnings/` 目录
+
+**Ontology 优势**：
+- 结构化数据，可查询
+- 实体有关系，可图遍历
+- 长期有效，不会过时
+
+
+
+
+
 
 ## 📝 Summarize 摘要技能
 
