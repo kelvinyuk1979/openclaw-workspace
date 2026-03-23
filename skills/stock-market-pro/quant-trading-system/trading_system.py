@@ -27,12 +27,12 @@ except ImportError:
 
 # 配置
 CONFIG = {
-    "initial_capital": 10000.0,  # 初始资金 $10,000
-    "max_position_pct": 0.10,    # 单笔最大仓位 10%
+    "initial_capital": 143.85,   # 初始资金 $143.85（实盘账户）
+    "max_position_pct": 0.40,    # 单笔最大仓位 40%（约$57）
     "stop_loss": -0.05,          # 止损 -5%
-    "take_profit": 0.10,         # 止盈 +10%
-    "max_positions": 4,          # 最多持仓 4 个币种
-    "symbols": ["BTC", "ETH", "SOL", "XRP"],  # 支持币种
+    "take_profit": 0.20,         # 止盈 +20%（让利润奔跑）
+    "max_positions": 1,          # 最多持仓 1 个币种（集中资金）
+    "symbols": ["BTC"],          # 只交易 BTC（避免资金分散）
     "check_interval_minutes": 5,  # 检查间隔
     # OKX 手续费（2026 年标准）
     "maker_fee": 0.0008,         # Maker 0.08%
