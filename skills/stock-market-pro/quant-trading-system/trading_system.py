@@ -31,8 +31,8 @@ CONFIG = {
     "max_position_pct": 0.40,    # 单笔最大仓位 40%（约$57）
     "stop_loss": -0.05,          # 止损 -5%
     "take_profit": 0.20,         # 止盈 +20%（让利润奔跑）
-    "max_positions": 1,          # 最多持仓 1 个币种（集中资金）
-    "symbols": ["BTC"],          # 只交易 BTC（避免资金分散）
+    "max_positions": 2,          # 最多持仓 2 个币种（适度分散）
+    "symbols": ["BTC", "ETH"],   # 交易 BTC + ETH（龙头 + 弹性）
     "check_interval_minutes": 5,  # 检查间隔
     # OKX 手续费（2026 年标准）
     "maker_fee": 0.0008,         # Maker 0.08%
