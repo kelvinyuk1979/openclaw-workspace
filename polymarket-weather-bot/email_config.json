@@ -1,0 +1,15 @@
+{
+  "email": {
+    "smtp_server": "smtp.qq.com",
+    "smtp_port": 465,
+    "from_email": "4352395@qq.com",
+    "password": "eryjlcbeanxnbgcj",
+    "to_email": "4352395@qq.com"
+  },
+  "bot_settings": {
+    "entry_threshold": 0.22,
+    "exit_threshold": 0.50,
+    "position_pct": 0.03,
+    "max_trades": 5
+  }
+}

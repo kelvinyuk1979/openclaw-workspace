@@ -1,0 +1,30 @@
+{
+  "688012_中微公司": {
+    "code": "688012",
+    "name": "中微公司",
+    "market": "A",
+    "alerts": [
+      {"type": "drop", "threshold": -10, "action": "考虑止损"},
+      {"type": "rise", "threshold": 15, "action": "考虑加仓"},
+      {"type": "drop", "threshold": -15, "action": "严格执行止损"}
+    ]
+  },
+  "300861_美畅股份": {
+    "code": "300861",
+    "name": "美畅股份",
+    "market": "A",
+    "alerts": [
+      {"type": "drop", "threshold": -10, "action": "考虑止损"},
+      {"type": "rise", "threshold": 20, "action": "考虑加仓"}
+    ]
+  },
+  "835185_贝特瑞": {
+    "code": "835185",
+    "name": "贝特瑞",
+    "market": "A",
+    "alerts": [
+      {"type": "drop", "threshold": -15, "action": "考虑止损"},
+      {"type": "rise", "threshold": 25, "action": "考虑加仓"}
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "last_scan": "2026-03-23T14:30:00.233999",
+  "results": {
+    "technical": {
+      "signals": [
+        {
+          "type": "Technical",
+          "indicator": "RSI",
+          "code": "002594",
+          "name": "比亚迪",
+          "signal": "SELL",
+          "reason": "RSI 超买 (72)",
+          "price": 220.8,
+          "change": 3.8
+        },
+        {
+          "type": "Technical",
+          "indicator": "MACD",
+          "code": "601318",
+          "name": "中国平安",
+          "signal": "SELL",
+          "reason": "MACD 死叉",
+          "price": 42.3,
+          "change": -0.8
+        }
+      ],
+      "trades": 2,
+      "pnl": 0.0,
+      "details": {
+        "stocks_scanned": 5,
+        "buy_signals": 0,
+        "sell_signals": 2,
+        "last_scan": "2026-03-23 14:30:00"
+      }
+    },
+    "fundamental": {
+      "signals": [
+        {
+          "type": "Technical",
+          "indicator": "RSI",
+          "code": "002594",
+          "name": "比亚迪",
+          "signal": "SELL",
+          "reason": "RSI 超买 (72)",
+          "price": 220.8,
+          "change": 3.8
+        },
+        {
+          "type": "Technical",
+          "indicator": "MACD",
+          "code": "601318",
+          "name": "中国平安",
+          "signal": "SELL",
+          "reason": "MACD 死叉",
+          "price": 42.3,
+          "change": -0.8
+        }
+      ],
+      "trades": 2,
+      "pnl": 0.0,
+      "details": {
+        "stocks_scanned": 5,
+        "buy_signals": 0,
+        "sell_signals": 2,
+        "last_scan": "2026-03-23 14:30:00"
+      }
+    },
+    "sentiment": {
+      "signals": [
+        {
+          "type": "Technical",
+          "indicator": "RSI",
+          "code": "002594",
+          "name": "比亚迪",
+          "signal": "SELL",
+          "reason": "RSI 超买 (72)",
+          "price": 220.8,
+          "change": 3.8
+        },
+        {
+          "type": "Technical",
+          "indicator": "MACD",
+          "code": "601318",
+          "name": "中国平安",
+          "signal": "SELL",
+          "reason": "MACD 死叉",
+          "price": 42.3,
+          "change": -0.8
+        }
+      ],
+      "trades": 2,
+      "pnl": 0.0,
+      "details": {
+        "stocks_scanned": 5,
+        "buy_signals": 0,
+        "sell_signals": 2,
+        "last_scan": "2026-03-23 14:30:00"
+      }
+    }
+  }
+}

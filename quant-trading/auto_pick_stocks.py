@@ -39,7 +39,8 @@ def get_stock_list_fallback():
     ]
 
 def get_realtime_data(symbol):
-    """获取个股实时行情（带重试）"""
+    """获取个股实时行情（带重试和速率限制）"""
+    import time
     for attempt in range(3):
         try:
             data = ak.stock_zh_a_hist(
@@ -50,10 +51,17 @@ def get_realtime_data(symbol):
                 adjust="qfq"
             )
             if data is not None and len(data) > 0:
+                # 成功后短暂延迟，避免触发速率限制
+                time.sleep(0.5)
                 return data
         except Exception as e:
-            if attempt < 2:
-                import time
+            error_msg = str(e)
+            # 速率限制错误，延长等待时间
+            if 'Rate limit' in error_msg or '频繁' in error_msg:
+                wait_time = 5 * (attempt + 1)  # 5s, 10s, 15s
+                print(f"⚠️  速率限制，等待 {wait_time} 秒后重试...")
+                time.sleep(wait_time)
+            elif attempt < 2:
                 time.sleep(2)
             continue
     return None
@@ -116,6 +124,7 @@ def check_conditions(df):
 
 def analyze_stocks(stock_codes):
     """分析股票池"""
+    import time
     results = []
     
     print(f"🔍 开始分析 {len(stock_codes)} 只股票...")
@@ -123,6 +132,11 @@ def analyze_stocks(stock_codes):
     for i, code in enumerate(stock_codes):
         if i % 10 == 0:
             print(f"📊 进度：{i+1}/{len(stock_codes)}")
+        
+        # 每只股票之间延迟，避免触发速率限制
+        if i > 0 and i % 5 == 0:
+            print(f"⏸️  短暂休息 2 秒...")
+            time.sleep(2)
         
         # 获取数据
         df = get_realtime_data(code)

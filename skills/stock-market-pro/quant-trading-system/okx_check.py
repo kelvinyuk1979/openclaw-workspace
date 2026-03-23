@@ -172,7 +172,8 @@ def main():
             f.write(f"\n### OKX 实盘检查 ({timestamp})\n")
             f.write(f"- 总权益：{balance['total_eq']:.2f} USDT\n")
             f.write(f"- 持仓数：{len(positions)}\n")
-            f.write(f"- 信号：{', '.join([f'{k}: {v[\"action\"]}' for k, v in signals.items()])}\n")
+            signal_str = ', '.join([f"{k}: {v['action']}" for k, v in signals.items()])
+            f.write(f"- 信号：{signal_str}\n")
         print(f"   ✅ 已写入 memory/2026-03-23.md")
     except Exception as e:
         print(f"   ⚠️ 写入失败：{e}")

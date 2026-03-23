@@ -1,0 +1,68 @@
+{
+  "bot_name": "Polymarket Quant Bot",
+  "version": "0.1.0",
+  "mode": "simulation",
+  
+  "account": {
+    "initial_capital": 10000,
+    "currency": "USDC",
+    "max_position_size": 0.20,
+    "max_drawdown": 0.15,
+    "daily_trade_limit": 20
+  },
+  
+  "strategies": {
+    "ev_strategy": {
+      "enabled": true,
+      "ev_threshold": 0.05,
+      "allocation": 0.25
+    },
+    "bayes_strategy": {
+      "enabled": true,
+      "min_confidence": 0.60,
+      "allocation": 0.25
+    },
+    "base_rate_strategy": {
+      "enabled": true,
+      "min_gap": 0.05,
+      "allocation": 0.25
+    },
+    "kl_arb_strategy": {
+      "enabled": true,
+      "kl_threshold": 0.15,
+      "allocation": 0.25
+    }
+  },
+  
+  "risk_control": {
+    "kelly_fraction": 0.25,
+    "max_single_bet": 0.10,
+    "max_total_exposure": 0.80,
+    "stop_loss": -0.10,
+    "take_profit": 0.20
+  },
+  
+  "data_sources": {
+    "polymarket_api": "https://api.polymarket.com",
+    "news_api": null,
+    "twitter_api": null
+  },
+  
+  "notifications": {
+    "email_enabled": true,
+    "email_to": "4352395@qq.com",
+    "email_from": "4352395@qq.com",
+    "smtp_server": "smtp.qq.com",
+    "smtp_port": 465,
+    "smtp_password": "eryjlcbeanxnbgcj",
+    "trade_alerts": true,
+    "daily_report": true,
+    "weekly_summary": true
+  },
+  
+  "schedule": {
+    "scan_interval_minutes": 15,
+    "report_time": "20:00",
+    "timezone": "Asia/Shanghai"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "balance": 10250.00,
+  "starting_balance": 10000.00,
+  "currency": "USDC",
+  "trades": [
+    {"date": "2026-03-19 09:15", "type": "BUY", "market": "Fed Rate Cut", "amount": 500, "pnl": 75},
+    {"date": "2026-03-19 10:30", "type": "SELL", "market": "BTC > 100K", "amount": 300, "pnl": -45},
+    {"date": "2026-03-19 11:00", "type": "BUY", "market": "Miami Temp > 90F", "amount": 200, "pnl": 0}
+  ],
+  "positions": {
+    "Fed Rate Cut": {"side": "YES", "amount": 500, "entry_price": 0.42},
+    "Miami Temp > 90F": {"side": "YES", "amount": 200, "entry_price": 0.25}
+  }
+}

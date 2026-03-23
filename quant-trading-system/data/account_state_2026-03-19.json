@@ -1,0 +1,19 @@
+{
+  "account": {
+    "initial_capital": 10000,
+    "cash": 10000,
+    "positions": {},
+    "history": [],
+    "mode": "simulation",
+    "t_plus_1": true,
+    "today_bought": []
+  },
+  "risk_metrics": {
+    "daily_pnl": 0,
+    "weekly_pnl": 0,
+    "monthly_pnl": 0,
+    "total_pnl": 0,
+    "consecutive_losses": 0
+  },
+  "timestamp": "2026-03-19T09:30:09.140622"
+}

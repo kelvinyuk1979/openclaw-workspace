@@ -1,0 +1,11 @@
+{
+  "ETH-USDT": {
+    "symbol": "ETH-USDT",
+    "side": "SHORT",
+    "entry_price": 2116.53,
+    "size": 0.4724714509125786,
+    "entry_time": "2026-03-23T12:58:49.669976",
+    "status": "open",
+    "current_pnl_pct": 0
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "mode": "simulation",
+  "account": {
+    "initial_capital": 100000,
+    "currency": "CNY"
+  },
+  "strategies": {
+    "technical": {
+      "enabled": true,
+      "allocation": 0.40,
+      "scan_interval_minutes": 30,
+      "config": {
+        "indicators": ["MA", "MACD", "RSI", "KDJ", "BOLL"],
+        "ma_periods": [5, 10, 20, 60],
+        "rsi_threshold": {"oversold": 30, "overbought": 70}
+      }
+    },
+    "fundamental": {
+      "enabled": true,
+      "allocation": 0.35,
+      "scan_interval_minutes": null,
+      "config": {
+        "pe_threshold": 30,
+        "roe_threshold": 15,
+        "revenue_growth": 10,
+        "profit_growth": 15
+      }
+    },
+    "sentiment": {
+      "enabled": true,
+      "allocation": 0.25,
+      "scan_interval_minutes": null,
+      "config": {
+        "news_sentiment": true,
+        "social_sentiment": true,
+        "capital_flow": true
+      }
+    }
+  },
+  "risk_control": {
+    "max_total_exposure": 0.80,
+    "stop_loss": -0.08,
+    "take_profit": 0.15,
+    "daily_loss_limit": -0.05,
+    "max_single_stock": 0.20,
+    "max_position_count": 10
+  },
+  "email": {
+    "enabled": true,
+    "to": "4352395@qq.com",
+    "from": "4352395@qq.com",
+    "smtp_server": "smtp.qq.com",
+    "smtp_port": 465,
+    "password": "eryjlcbeanxnbgcj"
+  },
+  "schedule": {
+    "email_times": ["09:00", "15:30"],
+    "timezone": "Asia/Shanghai",
+    "trading_hours": {
+      "morning": "09:30-11:30",
+      "afternoon": "13:00-15:00"
+    }
+  },
+  "stock_pool": {
+    "a_share": {
+      "enabled": true,
+      "markets": ["SH", "SZ", "BJ"],
+      "exclude_st": true,
+      "exclude_kcb": false
+    },
+    "hk_share": {
+      "enabled": false,
+      "markets": ["HKEX"]
+    },
+    "us_share": {
+      "enabled": false,
+      "markets": ["NYSE", "NASDAQ"]
+    }
+  }
+}

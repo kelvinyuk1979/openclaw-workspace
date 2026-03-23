@@ -1,0 +1,66 @@
+[
+  {
+    "symbol": "BTC",
+    "action": "OPEN",
+    "side": "SHORT",
+    "price": 68000,
+    "size": 1000.0,
+    "timestamp": "2026-03-19T09:18:46.211157"
+  },
+  {
+    "symbol": "ETH",
+    "action": "OPEN",
+    "side": "SHORT",
+    "price": 3500,
+    "size": 1000.0,
+    "timestamp": "2026-03-19T09:18:47.499055"
+  },
+  {
+    "symbol": "XRP",
+    "action": "OPEN",
+    "side": "LONG",
+    "price": 0.52,
+    "size": 1000.0,
+    "timestamp": "2026-03-19T09:18:48.384948"
+  },
+  {
+    "symbol": "SOL",
+    "action": "OPEN",
+    "side": "LONG",
+    "price": 90.19,
+    "size": 1218.1987252747251,
+    "timestamp": "2026-03-19T09:29:45.606189"
+  },
+  {
+    "symbol": "XRP",
+    "action": "OPEN",
+    "side": "SHORT",
+    "price": 1.4604,
+    "size": 1218.1987252747251,
+    "timestamp": "2026-03-19T09:29:46.432420"
+  },
+  {
+    "symbol": "ETH",
+    "action": "OPEN",
+    "side": "SHORT",
+    "price": 2191.56,
+    "size": 1218.1987252747251,
+    "timestamp": "2026-03-19T09:31:36.602941"
+  },
+  {
+    "symbol": "BTC",
+    "action": "OPEN",
+    "side": "LONG",
+    "price": 71500.92,
+    "size": 1213.0401958629604,
+    "timestamp": "2026-03-19T11:19:19.251479"
+  },
+  {
+    "symbol": "BTC",
+    "action": "OPEN",
+    "side": "SHORT",
+    "price": 67939.72,
+    "size": 1206.9735121095343,
+    "timestamp": "2026-03-23T09:58:35.414984"
+  }
+]

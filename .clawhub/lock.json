@@ -8,6 +8,22 @@
     "self-improving-agent": {
       "version": "3.0.1",
       "installedAt": 1773299477117
+    },
+    "nidhov01-skill-vetter": {
+      "version": "1.0.0",
+      "installedAt": 1773755585923
+    },
+    "market-research": {
+      "version": "1.0.1",
+      "installedAt": 1773840618097
+    },
+    "openmaic": {
+      "version": "0.2.1",
+      "installedAt": 1773900557548
+    },
+    "ontology": {
+      "version": "0.1.2",
+      "installedAt": 1774233659150
     }
   }
 }

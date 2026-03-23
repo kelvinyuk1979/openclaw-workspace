@@ -1,0 +1,17 @@
+# Polymarket 统一交易系统 - 定时任务
+# 已迁移到 polymarket-trading-system
+
+# 量化核心 - 每 15 分钟扫描（只扫描，不发送邮件）
+*/15 * * * * cd /Users/kelvin/.openclaw/workspace/polymarket-trading-system && /opt/homebrew/bin/python3 scan_only.py >> /Users/kelvin/.openclaw/workspace/polymarket-trading-system/logs/scan.log 2>&1
+
+# 统一邮件报告 - 每天上午 9 点
+0 9 * * * cd /Users/kelvin/.openclaw/workspace/polymarket-trading-system && /opt/homebrew/bin/python3 main.py >> /Users/kelvin/.openclaw/workspace/polymarket-trading-system/logs/cron.log 2>&1
+
+# 统一邮件报告 - 每天下午 5 点
+0 17 * * * cd /Users/kelvin/.openclaw/workspace/polymarket-trading-system && /opt/homebrew/bin/python3 main.py >> /Users/kelvin/.openclaw/workspace/polymarket-trading-system/logs/cron.log 2>&1
+
+# 每天晚上 8 点生成详细报告
+0 20 * * * cd /Users/kelvin/.openclaw/workspace/polymarket-quant-bot && /opt/homebrew/bin/python3 main.py >> /Users/kelvin/.openclaw/workspace/polymarket-quant-bot/logs/daily.log 2>&1
+
+# 每周日凌晨 2 点运行回测优化
+0 2 * * 0 cd /Users/kelvin/.openclaw/workspace/polymarket-quant-bot && /opt/homebrew/bin/python3 backtest.py >> /Users/kelvin/.openclaw/workspace/polymarket-quant-bot/logs/backtest.log 2>&1

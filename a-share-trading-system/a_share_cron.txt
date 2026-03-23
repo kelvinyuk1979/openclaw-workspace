@@ -1,0 +1,10 @@
+# A 股统一交易系统 - 定时任务
+
+# 技术面扫描 - 每 30 分钟（交易时间）
+*/30 9-11,13-15 * * 1-5 cd /Users/kelvin/.openclaw/workspace/a-share-trading-system && /opt/homebrew/bin/python3 scan_only.py >> /Users/kelvin/.openclaw/workspace/a-share-trading-system/logs/scan.log 2>&1
+
+# 统一邮件报告 - 每个交易日上午 9 点
+0 9 * * 1-5 cd /Users/kelvin/.openclaw/workspace/a-share-trading-system && /opt/homebrew/bin/python3 main.py >> /Users/kelvin/.openclaw/workspace/a-share-trading-system/logs/cron.log 2>&1
+
+# 统一邮件报告 - 每个交易日下午 3:30（收盘后）
+30 15 * * 1-5 cd /Users/kelvin/.openclaw/workspace/a-share-trading-system && /opt/homebrew/bin/python3 main.py >> /Users/kelvin/.openclaw/workspace/a-share-trading-system/logs/cron.log 2>&1

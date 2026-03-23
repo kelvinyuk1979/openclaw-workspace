@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌐 统一交易系统看板</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f1419; color: #e7e9ea; padding: 20px; }
+        .container { max-width: 1800px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 12px; margin-bottom: 20px; text-align: center; }
+        .header h1 { font-size: 32px; margin-bottom: 10px; }
+        .header p { opacity: 0.9; font-size: 14px; }
+        .systems-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px; }
+        @media (max-width: 1400px) { .systems-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 900px) { .systems-grid { grid-template-columns: 1fr; } }
+        .system-card { background: #1e2732; border-radius: 12px; overflow: hidden; }
+        .system-header { padding: 20px; border-bottom: 1px solid #2f3946; }
+        .system-header h2 { font-size: 20px; display: flex; align-items: center; gap: 10px; }
+        .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px; background: #161f28; }
+        .metric-card { text-align: center; }
+        .metric-value { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+        .metric-label { color: #8b98a5; font-size: 12px; }
+        .positive { color: #00ba7c; }
+        .negative { color: #f4212e; }
+        .strategies { padding: 20px; max-height: 500px; overflow-y: auto; }
+        .strategy-section { margin-bottom: 20px; }
+        .strategy-section h3 { font-size: 14px; color: #8b98a5; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .signal-list { display: grid; gap: 10px; }
+        .signal-item { background: #2f3946; padding: 12px; border-radius: 8px; display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; font-size: 13px; }
+        .signal-info { min-width: 0; }
+        .signal-name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .signal-reason { font-size: 12px; color: #8b98a5; margin-top: 2px; }
+        .signal-metric { font-size: 12px; color: #8b98a5; text-align: right; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .badge-buy { background: #00ba7c; color: white; }
+        .badge-sell { background: #f4212e; color: white; }
+        .badge-long { background: #00ba7c; color: white; }
+        .badge-short { background: #f4212e; color: white; }
+        .badge-hold { background: #5c6b7f; color: white; }
+        .badge-tech { background: #2563eb; color: white; }
+        .badge-fund { background: #059669; color: white; }
+        .badge-sent { background: #d97706; color: white; }
+        .badge-quant { background: #667eea; color: white; }
+        .badge-weather { background: #17a2b8; color: white; }
+        .badge-event { background: #f59e0b; color: white; }
+        .badge-momentum { background: #dc2626; color: white; }
+        .badge-mean { background: #16a34a; color: white; }
+        .badge-macd { background: #2563eb; color: white; }
+        .badge-trend { background: #9333ea; color: white; }
+        .no-signals { text-align: center; color: #5c6b7f; padding: 20px; font-size: 13px; }
+        .update-time { text-align: center; color: #5c6b7f; font-size: 13px; margin-top: 20px; padding: 20px; }
+        .refresh-btn { background: #667eea; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; margin-top: 15px; }
+        .refresh-btn:hover { background: #5568d3; }
+        .poly-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .ashare-header { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); }
+        .okx-header { background: linear-gradient(135deg, #000000 0%, #333333 100%); }
+        .positions-list { display: grid; gap: 8px; }
+        .position-item { background: #2f3946; padding: 10px; border-radius: 6px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 统一交易系统看板</h1>
+            <p>Polymarket 预测市场 + A 股量化 + OKX 加密货币 | 实时信号监控</p>
+            <button class="refresh-btn" onclick="location.reload()">🔄 刷新数据</button>
+        </div>
+        
+        <div class="systems-grid">
+            <!-- Polymarket 系统 -->
+            <div class="system-card">
+                <div class="system-header poly-header">
+                    <h2>🤖 Polymarket</h2>
+                </div>
+                <div class="metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">${{ "%.0f"|format(poly_sim.get('balance', 10000)) }}</div>
+                        <div class="metric-label">账户余额</div>
+                    </div>
+                    {% set poly_pnl = poly_sim.get('balance', 10000) - poly_sim.get('starting_balance', 10000) %}
+                    <div class="metric-card">
+                        <div class="metric-value {{ 'positive' if poly_pnl >= 0 else 'negative' }}">${{ "%+.0f"|format(poly_pnl) }}</div>
+                        <div class="metric-label">总盈亏</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value {{ 'positive' if poly_pnl >= 0 else 'negative' }}">{{ "%+.1f"|format((poly_pnl / poly_sim.get('starting_balance', 10000)) * 100) }}%</div>
+                        <div class="metric-label">收益率</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">{{ poly_sim.get('trades', [])|length }}</div>
+                        <div class="metric-label">交易数</div>
+                    </div>
+                </div>
+                <div class="strategies">
+                    <div class="strategy-section">
+                        <h3><span class="badge badge-quant">📊</span> 量化核心</h3>
+                        <div class="signal-list">
+                            {% set quant_signals = poly_scan.results.quant.signals|default([]) %}
+                            {% if quant_signals and quant_signals|length > 0 %}
+                                {% for signal in quant_signals[:4] %}
+                                <div class="signal-item">
+                                    <div class="signal-info">
+                                        <div class="signal-name">{{ signal.market }}</div>
+                                        <div class="signal-reason">EV: {{ "%.2f"|format(signal.ev|default(0)) }}</div>
+                                    </div>
+                                    <span class="badge badge-{{ 'buy' if signal.action == 'BUY' else 'sell' }}">{{ signal.action }}</span>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="no-signals">暂无信号</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="strategy-section">
+                        <h3><span class="badge badge-weather">🌤️</span> 天气套利</h3>
+                        <div class="signal-list">
+                            {% set weather_signals = poly_scan.results.weather.signals|default([]) %}
+                            {% if weather_signals and weather_signals|length > 0 %}
+                                {% for signal in weather_signals[:3] %}
+                                <div class="signal-item">
+                                    <div class="signal-info">
+                                        <div class="signal-name">{{ signal.city }}</div>
+                                        <div class="signal-reason">{{ signal.forecast_temp }}°F</div>
+                                    </div>
+                                    <span class="badge badge-{{ 'buy' if signal.action == 'BUY' else 'watch' }}">{{ signal.action }}</span>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="no-signals">暂无信号</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- A 股系统 -->
+            <div class="system-card">
+                <div class="system-header ashare-header">
+                    <h2>📈 A 股</h2>
+                </div>
+                <div class="metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">¥{{ "%.0f"|format(ashare_sim.get('balance', 100000)) }}</div>
+                        <div class="metric-label">账户余额</div>
+                    </div>
+                    {% set ashare_pnl = ashare_sim.get('balance', 100000) - ashare_sim.get('starting_balance', 100000) %}
+                    <div class="metric-card">
+                        <div class="metric-value {{ 'positive' if ashare_pnl >= 0 else 'negative' }}">¥{{ "%+.0f"|format(ashare_pnl) }}</div>
+                        <div class="metric-label">总盈亏</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value {{ 'positive' if ashare_pnl >= 0 else 'negative' }}">{{ "%+.1f"|format((ashare_pnl / ashare_sim.get('starting_balance', 100000)) * 100) }}%</div>
+                        <div class="metric-label">收益率</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">{{ ashare_sim.get('trades', [])|length }}</div>
+                        <div class="metric-label">交易数</div>
+                    </div>
+                </div>
+                <div class="strategies">
+                    <div class="strategy-section">
+                        <h3><span class="badge badge-tech">📊</span> 技术面</h3>
+                        <div class="signal-list">
+                            {% set tech_signals = ashare_scan.results.technical.signals|default([]) %}
+                            {% if tech_signals and tech_signals|length > 0 %}
+                                {% for signal in tech_signals[:4] %}
+                                <div class="signal-item">
+                                    <div class="signal-info">
+                                        <div class="signal-name">{{ signal.code }} - {{ signal.name }}</div>
+                                        <div class="signal-reason">{{ signal.indicator }}</div>
+                                    </div>
+                                    <span class="badge badge-{{ 'buy' if signal.signal == 'BUY' else 'sell' }}">{{ signal.signal }}</span>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="no-signals">暂无信号</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="strategy-section">
+                        <h3><span class="badge badge-fund">💰</span> 基本面</h3>
+                        <div class="signal-list">
+                            {% set fund_signals = ashare_scan.results.fundamental.signals|default([]) %}
+                            {% if fund_signals and fund_signals|length > 0 %}
+                                {% for signal in fund_signals[:3] %}
+                                <div class="signal-item">
+                                    <div class="signal-info">
+                                        <div class="signal-name">{{ signal.code }} - {{ signal.name }}</div>
+                                        <div class="signal-reason">{{ signal.strategy }}</div>
+                                    </div>
+                                    <span class="badge badge-{{ 'buy' if signal.signal == 'BUY' else 'sell' }}">{{ signal.signal }}</span>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="no-signals">暂无信号</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- OKX 系统 -->
+            <div class="system-card">
+                <div class="system-header okx-header">
+                    <h2>₿ OKX 加密货币</h2>
+                </div>
+                <div class="metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">${{ "%.0f"|format(okx_account.get('balance', 10000)) }}</div>
+                        <div class="metric-label">账户余额</div>
+                    </div>
+                    {% set okx_pnl = okx_account.get('total_pnl', 0) %}
+                    <div class="metric-card">
+                        <div class="metric-value {{ 'positive' if okx_pnl >= 0 else 'negative' }}">${{ "%+.0f"|format(okx_pnl) }}</div>
+                        <div class="metric-label">总盈亏</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value {{ 'positive' if okx_pnl >= 0 else 'negative' }}">{{ "%+.1f"|format((okx_pnl / okx_account.get('initial_capital', 10000)) * 100) }}%</div>
+                        <div class="metric-label">收益率</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">{{ okx_positions|length }}</div>
+                        <div class="metric-label">持仓数</div>
+                    </div>
+                </div>
+                <div class="strategies">
+                    <div class="strategy-section">
+                        <h3><span class="badge badge-tech">📦</span> 当前持仓</h3>
+                        <div class="positions-list">
+                            {% if okx_positions and okx_positions|length > 0 %}
+                                {% for symbol, pos in okx_positions.items() %}
+                                {% set pnl_pct = pos.current_pnl_pct|default(0) * 100 %}
+                                <div class="position-item">
+                                    <div>
+                                        <strong>{{ symbol.replace('-USDT', '') }}</strong>
+                                        <span class="badge badge-{{ 'long' if pos.side == 'LONG' else 'short' }}">{{ pos.side }}</span>
+                                        <span style="color: #8b98a5; margin-left: 8px;">@ ${{ "%.2f"|format(pos.entry_price) }}</span>
+                                    </div>
+                                    <div class="{{ 'positive' if pnl_pct >= 0 else 'negative' }}">{{ "%+.2f"|format(pnl_pct) }}%</div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="no-signals">无持仓</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="strategy-section">
+                        <h3><span class="badge badge-quant">📊</span> 最新信号</h3>
+                        <div class="signal-list">
+                            {% set okx_signals_list = okx_signals.signals|default([]) %}
+                            {% if okx_signals_list and okx_signals_list|length > 0 %}
+                                {% for signal in okx_signals_list[:5] %}
+                                <div class="signal-item">
+                                    <div class="signal-info">
+                                        <div class="signal-name">{{ signal.symbol.replace('-USDT', '') }}</div>
+                                        <div class="signal-reason">
+                                            RSI: {{ signal.indicators.rsi }} | 
+                                            L:{{ signal.votes.long }} S:{{ signal.votes.short }} H:{{ signal.votes.hold }}
+                                        </div>
+                                    </div>
+                                    <span class="badge badge-{{ 'long' if signal.signal == 'LONG' else ('short' if signal.signal == 'SHORT' else 'hold') }}">{{ signal.signal }}</span>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="no-signals">暂无信号</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="strategy-section">
+                        <h3><span class="badge badge-macd">🎯</span> 策略</h3>
+                        <div style="font-size: 12px; color: #8b98a5; line-height: 1.8;">
+                            • 动量策略 (RSI)<br>
+                            • 均值回归<br>
+                            • MACD 交叉<br>
+                            • 趋势跟随 (MA20/50)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="update-time">
+            最后更新：{{ last_update }} | 
+            Polymarket: 每 15 分钟 | 
+            A 股：每 30 分钟 (交易时间) | 
+            OKX: 每 5 分钟
+        </div>
+    </div>
+</body>
+</html>

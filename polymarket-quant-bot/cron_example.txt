@@ -1,0 +1,10 @@
+# Polymarket 量化机器人 - Cron 定时任务配置
+
+# 每 15 分钟扫描一次市场
+*/15 * * * * cd /Users/kelvin/.openclaw/workspace/polymarket-quant-bot && /opt/homebrew/bin/python3 scheduled_scan.py >> logs/cron.log 2>&1
+
+# 每天晚上 8 点生成详细报告
+0 20 * * * cd /Users/kelvin/.openclaw/workspace/polymarket-quant-bot && /opt/homebrew/bin/python3 main.py >> logs/daily.log 2>&1
+
+# 每周日凌晨运行回测优化
+0 2 * * 0 cd /Users/kelvin/.openclaw/workspace/polymarket-quant-bot && /opt/homebrew/bin/python3 backtest.py >> logs/backtest.log 2>&1

@@ -1,0 +1,119 @@
+{
+  "last_scan": "2026-03-23T10:48:01.358555",
+  "results": {
+    "quant": {
+      "signals": [
+        {
+          "type": "EV",
+          "market": "Fed Rate Cut by March 2026",
+          "ev": 0.1905,
+          "price": 0.42,
+          "action": "BUY",
+          "confidence": "HIGH"
+        },
+        {
+          "type": "EV",
+          "market": "BTC > $100K in 2026",
+          "ev": 0.4286,
+          "price": 0.35,
+          "action": "BUY",
+          "confidence": "HIGH"
+        },
+        {
+          "type": "EV",
+          "market": "AI Regulation Bill Passed",
+          "ev": 0.7857,
+          "price": 0.28,
+          "action": "BUY",
+          "confidence": "HIGH"
+        }
+      ],
+      "trades": 3,
+      "pnl": 0.0,
+      "details": {
+        "markets_scanned": 4,
+        "ev_signals": 3,
+        "base_rate_signals": 0,
+        "kl_signals": 0,
+        "last_scan": "2026-03-23 10:48:01",
+        "api_source": "polymarket.com"
+      }
+    },
+    "weather": {
+      "signals": [
+        {
+          "type": "EV",
+          "market": "Fed Rate Cut by March 2026",
+          "ev": 0.1905,
+          "price": 0.42,
+          "action": "BUY",
+          "confidence": "HIGH"
+        },
+        {
+          "type": "EV",
+          "market": "BTC > $100K in 2026",
+          "ev": 0.4286,
+          "price": 0.35,
+          "action": "BUY",
+          "confidence": "HIGH"
+        },
+        {
+          "type": "EV",
+          "market": "AI Regulation Bill Passed",
+          "ev": 0.7857,
+          "price": 0.28,
+          "action": "BUY",
+          "confidence": "HIGH"
+        }
+      ],
+      "trades": 3,
+      "pnl": 0.0,
+      "details": {
+        "markets_scanned": 4,
+        "ev_signals": 3,
+        "base_rate_signals": 0,
+        "kl_signals": 0,
+        "last_scan": "2026-03-23 10:48:01",
+        "api_source": "polymarket.com"
+      }
+    },
+    "event": {
+      "signals": [
+        {
+          "type": "EV",
+          "market": "Fed Rate Cut by March 2026",
+          "ev": 0.1905,
+          "price": 0.42,
+          "action": "BUY",
+          "confidence": "HIGH"
+        },
+        {
+          "type": "EV",
+          "market": "BTC > $100K in 2026",
+          "ev": 0.4286,
+          "price": 0.35,
+          "action": "BUY",
+          "confidence": "HIGH"
+        },
+        {
+          "type": "EV",
+          "market": "AI Regulation Bill Passed",
+          "ev": 0.7857,
+          "price": 0.28,
+          "action": "BUY",
+          "confidence": "HIGH"
+        }
+      ],
+      "trades": 3,
+      "pnl": 0.0,
+      "details": {
+        "markets_scanned": 4,
+        "ev_signals": 3,
+        "base_rate_signals": 0,
+        "kl_signals": 0,
+        "last_scan": "2026-03-23 10:48:01",
+        "api_source": "polymarket.com"
+      }
+    }
+  }
+}

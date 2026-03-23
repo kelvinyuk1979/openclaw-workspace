@@ -1,0 +1,222 @@
+{
+  "688111_金山办公": {
+    "code": "688111",
+    "name": "金山办公",
+    "category": "A 股隐形冠军",
+    "sector": "软件",
+    "price": 55.94,
+    "change_pct": 0.99,
+    "volume": 9715654,
+    "market_cap": 401.45,
+    "timestamp": "2026-03-17T17:00:16.995930"
+  },
+  "688012_中微公司": {
+    "code": "688012",
+    "name": "中微公司",
+    "category": "A 股隐形冠军",
+    "sector": "半导体",
+    "price": 113.83,
+    "change_pct": 4.75,
+    "volume": 9793472,
+    "market_cap": 932.53,
+    "timestamp": "2026-03-17T17:00:16.995940"
+  },
+  "300763_锦浪科技": {
+    "code": "300763",
+    "name": "锦浪科技",
+    "category": "A 股隐形冠军",
+    "sector": "光伏",
+    "price": 453.46,
+    "change_pct": 0.16,
+    "volume": 2249042,
+    "market_cap": 2429.97,
+    "timestamp": "2026-03-17T17:00:16.995944"
+  },
+  "688390_固德威": {
+    "code": "688390",
+    "name": "固德威",
+    "category": "A 股隐形冠军",
+    "sector": "光伏",
+    "price": 498.55,
+    "change_pct": -0.61,
+    "volume": 4288170,
+    "market_cap": 4058.82,
+    "timestamp": "2026-03-17T17:00:16.995946"
+  },
+  "300861_美畅股份": {
+    "code": "300861",
+    "name": "美畅股份",
+    "category": "A 股隐形冠军",
+    "sector": "光伏",
+    "price": 473.18,
+    "change_pct": 4.15,
+    "volume": 760520,
+    "market_cap": 3093.52,
+    "timestamp": "2026-03-17T17:00:16.995949"
+  },
+  "688122_西部超导": {
+    "code": "688122",
+    "name": "西部超导",
+    "category": "A 股隐形冠军",
+    "sector": "材料",
+    "price": 417.76,
+    "change_pct": -3.93,
+    "volume": 5986464,
+    "market_cap": 3851.13,
+    "timestamp": "2026-03-17T17:00:16.995951"
+  },
+  "300601_康泰生物": {
+    "code": "300601",
+    "name": "康泰生物",
+    "category": "A 股隐形冠军",
+    "sector": "医药",
+    "price": 309.44,
+    "change_pct": 3.55,
+    "volume": 3911151,
+    "market_cap": 574.32,
+    "timestamp": "2026-03-17T17:00:16.995954"
+  },
+  "688016_心脉医疗": {
+    "code": "688016",
+    "name": "心脉医疗",
+    "category": "A 股隐形冠军",
+    "sector": "医药",
+    "price": 31.11,
+    "change_pct": -3.98,
+    "volume": 9597067,
+    "market_cap": 250.31,
+    "timestamp": "2026-03-17T17:00:16.995956"
+  },
+  "300723_一品红": {
+    "code": "300723",
+    "name": "一品红",
+    "category": "A 股隐形冠军",
+    "sector": "医药",
+    "price": 290.52,
+    "change_pct": 1.12,
+    "volume": 2176820,
+    "market_cap": 2273.8,
+    "timestamp": "2026-03-17T17:00:16.995958"
+  },
+  "688180_君实生物": {
+    "code": "688180",
+    "name": "君实生物",
+    "category": "A 股隐形冠军",
+    "sector": "医药",
+    "price": 233.77,
+    "change_pct": 4.55,
+    "volume": 464411,
+    "market_cap": 1437.24,
+    "timestamp": "2026-03-17T17:00:16.995960"
+  },
+  "833575_康乐卫士": {
+    "code": "833575",
+    "name": "康乐卫士",
+    "category": "北交所专精特新",
+    "sector": "医药",
+    "price": 148.15,
+    "change_pct": -2.43,
+    "volume": 6684085,
+    "market_cap": 1011.87,
+    "timestamp": "2026-03-17T17:00:16.995962"
+  },
+  "835185_贝特瑞": {
+    "code": "835185",
+    "name": "贝特瑞",
+    "category": "北交所专精特新",
+    "sector": "新能源",
+    "price": 136.87,
+    "change_pct": -1.4,
+    "volume": 939413,
+    "market_cap": 848.87,
+    "timestamp": "2026-03-17T17:00:16.995964"
+  },
+  "830779_武汉蓝电": {
+    "code": "830779",
+    "name": "武汉蓝电",
+    "category": "北交所专精特新",
+    "sector": "设备",
+    "price": 146.63,
+    "change_pct": -1.47,
+    "volume": 4742438,
+    "market_cap": 256.55,
+    "timestamp": "2026-03-17T17:00:16.995966"
+  },
+  "832000_寰宇科技": {
+    "code": "832000",
+    "name": "寰宇科技",
+    "category": "北交所专精特新",
+    "sector": "军工",
+    "price": 265.07,
+    "change_pct": 3.46,
+    "volume": 6281803,
+    "market_cap": 982.43,
+    "timestamp": "2026-03-17T17:00:16.995968"
+  },
+  "872925_锦好医疗": {
+    "code": "872925",
+    "name": "锦好医疗",
+    "category": "北交所专精特新",
+    "sector": "医药",
+    "price": 275.03,
+    "change_pct": -2.88,
+    "volume": 1942168,
+    "market_cap": 1118.34,
+    "timestamp": "2026-03-17T17:00:16.995970"
+  },
+  "02269.HK_药明生物": {
+    "code": "02269.HK",
+    "name": "药明生物",
+    "category": "港股隐形冠军",
+    "sector": "医药",
+    "price": 315.19,
+    "change_pct": -0.96,
+    "volume": 4774158,
+    "market_cap": 2593.25,
+    "timestamp": "2026-03-17T17:00:16.995972"
+  },
+  "01801.HK_信达生物": {
+    "code": "01801.HK",
+    "name": "信达生物",
+    "category": "港股隐形冠军",
+    "sector": "医药",
+    "price": 20.1,
+    "change_pct": -1.86,
+    "volume": 9126669,
+    "market_cap": 112.62,
+    "timestamp": "2026-03-17T17:00:16.995974"
+  },
+  "09995.HK_再鼎医药": {
+    "code": "09995.HK",
+    "name": "再鼎医药",
+    "category": "港股隐形冠军",
+    "sector": "医药",
+    "price": 197.22,
+    "change_pct": 1.49,
+    "volume": 7209257,
+    "market_cap": 549.87,
+    "timestamp": "2026-03-17T17:00:16.995976"
+  },
+  "02208.HK_金风科技": {
+    "code": "02208.HK",
+    "name": "金风科技",
+    "category": "港股隐形冠军",
+    "sector": "新能源",
+    "price": 325.33,
+    "change_pct": 3.15,
+    "volume": 5683875,
+    "market_cap": 905.33,
+    "timestamp": "2026-03-17T17:00:16.995978"
+  },
+  "01799.HK_协鑫新能源": {
+    "code": "01799.HK",
+    "name": "协鑫新能源",
+    "category": "港股隐形冠军",
+    "sector": "光伏",
+    "price": 165.77,
+    "change_pct": 2.26,
+    "volume": 1011053,
+    "market_cap": 1654.83,
+    "timestamp": "2026-03-17T17:00:16.995980"
+  }
+}

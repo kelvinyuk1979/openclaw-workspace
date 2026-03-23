@@ -1,0 +1,9 @@
+{
+  "tushare": {
+    "token": "31d83597e34d0f564c8d9f8a9b3e8b7b7daf4fb10f24235989c7ecb2",
+    "api_url": "https://api.tushare.pro",
+    "enabled": true
+  },
+  "data_source": "tushare",
+  "fallback_to_mock": true
+}

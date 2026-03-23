@@ -1,0 +1,110 @@
+{
+  "system_name": "A 股量化交易系统",
+  "version": "2.0.0",
+  "created_date": "2026-03-16",
+  
+  "account": {
+    "initial_capital": 10000,
+    "currency": "CNY",
+    "mode": "simulation",
+    "markets": ["A 股"]
+  },
+  
+  "risk_control": {
+    "position_single_max": 0.20,
+    "position_total_max": 0.95,
+    "daily_loss_limit": -0.05,
+    "weekly_loss_limit": -0.10,
+    "monthly_loss_limit": -0.15,
+    "stop_loss": -0.08,
+    "take_profit": 0.25,
+    "strategy_circuit_breaker": 3,
+    "a_stock_rules": {
+      "t_plus_1": true,
+      "price_limit": 0.10,
+      "min_lot": 100,
+      "stamp_tax": 0.0005,
+      "commission": 0.0003,
+      "commission_min": 5
+    }
+  },
+  
+  "strategies": {
+    "trend_following": {
+      "enabled": true,
+      "allocation": 0.35,
+      "parameters": {
+        "ma_short": 5,
+        "ma_long": 20,
+        "rsi_period": 14,
+        "rsi_oversold": 30,
+        "rsi_overbought": 70
+      }
+    },
+    "momentum": {
+      "enabled": true,
+      "allocation": 0.35,
+      "parameters": {
+        "lookback_period": 20,
+        "volume_threshold": 1.5,
+        "breakout_threshold": 0.05
+      }
+    },
+    "mean_reversion": {
+      "enabled": true,
+      "allocation": 0.30,
+      "parameters": {
+        "bollinger_period": 20,
+        "bollinger_std": 2,
+        "rsi_oversold": 25,
+        "rsi_overbought": 75
+      }
+    }
+  },
+  
+  "a_stock_pool": {
+    "large_cap": [
+      "600519", "300750", "002594", "000858", "000333",
+      "601318", "600036", "600276", "600030", "601888"
+    ],
+    "growth": [
+      "300059", "300014", "300122", "300124", "300274",
+      "300308", "300413", "300433", "300498", "300601"
+    ],
+    "niche_leader": [
+      "688012", "688111", "688390", "300763", "300861",
+      "688122", "688016", "300723", "688180", "688981"
+    ]
+  },
+  
+  "trading_schedule": {
+    "scan_time": "15:00",
+    "timezone": "Asia/Shanghai",
+    "frequency": "daily",
+    "markets": {
+      "A 股": {"open": "09:30", "close": "15:00"},
+      "港股": {"open": "09:30", "close": "16:00"},
+      "Crypto": {"open": "00:00", "close": "24:00"}
+    }
+  },
+  
+  "data_sources": {
+    "A 股": "akshare",
+    "港股": "akshare",
+    "Crypto": "ccxt"
+  },
+  
+  "notification": {
+    "email": "4352395@qq.com",
+    "daily_report": true,
+    "trade_alert": true,
+    "risk_alert": true
+  },
+  
+  "execution": {
+    "auto_execute": false,
+    "require_confirmation": true,
+    "slippage": 0.001,
+    "commission": 0.0003
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "balance": 108500.00,
+  "starting_balance": 100000.00,
+  "currency": "CNY",
+  "trades": [
+    {"date": "2026-03-19 09:35", "type": "BUY", "code": "600519", "name": "贵州茅台", "amount": 50000, "price": 1680.50, "pnl": 0},
+    {"date": "2026-03-19 10:15", "type": "BUY", "code": "002594", "name": "比亚迪", "amount": 30000, "price": 220.80, "pnl": 0},
+    {"date": "2026-03-19 11:00", "type": "BUY", "code": "300750", "name": "宁德时代", "amount": 20000, "price": 185.20, "pnl": 850}
+  ],
+  "positions": {
+    "600519": {"side": "LONG", "amount": 50000, "entry_price": 1680.50, "current_price": 1680.50},
+    "002594": {"side": "LONG", "amount": 30000, "entry_price": 220.80, "current_price": 220.80},
+    "300750": {"side": "LONG", "amount": 20000, "entry_price": 185.20, "current_price": 189.45}
+  }
+}
