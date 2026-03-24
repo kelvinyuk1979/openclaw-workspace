@@ -235,7 +235,7 @@
                                     <div>
                                         <strong>{{ symbol.replace('-USDT', '') }}</strong>
                                         <span class="badge badge-{{ 'long' if pos.side == 'LONG' else 'short' }}">{{ pos.side }}</span>
-                                        <span style="color: #8b98a5; margin-left: 8px;">@ ${{ "%.2f"|format(pos.entry_price) }}</span>
+                                        <span style="color: #8b98a5; margin-left: 8px;">@ ${{ "%.2f"|format(pos.avg_price) }}</span>
                                     </div>
                                     <div class="{{ 'positive' if pnl_pct >= 0 else 'negative' }}">{{ "%+.2f"|format(pnl_pct) }}%</div>
                                 </div>
@@ -255,8 +255,9 @@
                                     <div class="signal-info">
                                         <div class="signal-name">{{ signal.symbol.replace('-USDT', '') }}</div>
                                         <div class="signal-reason">
-                                            RSI: {{ signal.indicators.rsi }} | 
-                                            L:{{ signal.votes.long }} S:{{ signal.votes.short }} H:{{ signal.votes.hold }}
+                                            RSI: {{ signal.rsi|default('N/A') }} | 
+                                            L:{{ signal.votes.momentum == 'BUY' or signal.votes.mean_reversion == 'BUY' or signal.votes.macd_signal == 'BUY' or signal.votes.super_trend == 'BUY' }} 
+                                            H:{{ signal.votes.momentum == 'HOLD' or signal.votes.mean_reversion == 'HOLD' or signal.votes.macd_signal == 'HOLD' or signal.votes.super_trend == 'HOLD' }}
                                         </div>
                                     </div>
                                     <span class="badge badge-{{ 'long' if signal.signal == 'LONG' else ('short' if signal.signal == 'SHORT' else 'hold') }}">{{ signal.signal }}</span>
