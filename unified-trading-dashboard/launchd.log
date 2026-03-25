@@ -18,3 +18,7 @@
 - 检查：进程不存在，PID 文件残留
 - 修复：重启 web_server.py
 - 状态：✅ 已恢复，http://localhost:5002
+清理旧的 PID 文件
+启动统一交易系统看板...
+✅ 看板已启动 (PID: 827)
+📍 访问地址：http://localhost:5002

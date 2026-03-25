@@ -129,9 +129,9 @@ def main():
         print(f"   ❌ API 连接失败：{e}")
         return
     
-    # 2. 获取持仓
+    # 2. 获取持仓（现货从余额获取）
     print("\n2️⃣ 持仓状态...")
-    positions = client.get_positions()
+    positions = client.get_spot_positions()
     print(f"   持仓数：{len(positions)}")
     for sym, pos in positions.items():
         print(f"   - {sym}: {pos['side']} {pos['pnl_pct']:.2%}")

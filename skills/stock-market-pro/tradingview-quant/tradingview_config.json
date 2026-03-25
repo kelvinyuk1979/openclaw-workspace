@@ -1,0 +1,7 @@
+{
+  "rapidapi_key": "9c5420d125msh613da73e04513e8p191bb9jsn1a2af314f994",
+  "api_host": "tradingview-data1.p.rapidapi.com",
+  "mcp_url": "https://mcp.tradingviewapi.com/mcp",
+  "jwt_endpoint": "https://tradingview-data1.p.rapidapi.com/api/mcp/generate",
+  "note": "JWT Token 有效期 30 分钟，过期后需要重新生成"
+}

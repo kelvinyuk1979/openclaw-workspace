@@ -1,0 +1,189 @@
+{
+  "timestamp": "2026-03-25 14:13:33",
+  "total_stocks": 32,
+  "indices": [
+    {
+      "code": "000001",
+      "name": "上证指数",
+      "price": 3919.78,
+      "change": 0.99
+    },
+    {
+      "code": "399001",
+      "name": "深证成指",
+      "price": 13765.35,
+      "change": 1.69
+    },
+    {
+      "code": "399006",
+      "name": "创业板指",
+      "price": 3307.18,
+      "change": 1.71
+    },
+    {
+      "code": "000688",
+      "name": "科创50",
+      "price": 1313.42,
+      "change": 1.75
+    }
+  ],
+  "strategies": {
+    "momentum": [
+      {
+        "code": "300433",
+        "name": "蓝思科技",
+        "price": 29.27,
+        "change": 4.54,
+        "amount_yi": 19.5
+      },
+      {
+        "code": "002241",
+        "name": "歌尔股份",
+        "price": 23.21,
+        "change": 3.16,
+        "amount_yi": 18.2
+      },
+      {
+        "code": "601899",
+        "name": "紫金矿业",
+        "price": 33.17,
+        "change": 3.01,
+        "amount_yi": 122.7
+      },
+      {
+        "code": "600893",
+        "name": "航发动力",
+        "price": 49.35,
+        "change": 2.92,
+        "amount_yi": 14.8
+      },
+      {
+        "code": "600104",
+        "name": "上汽集团",
+        "price": 14.48,
+        "change": 2.84,
+        "amount_yi": 7.5
+      }
+    ],
+    "volume_price": [
+      {
+        "code": "601899",
+        "name": "紫金矿业",
+        "price": 33.17,
+        "change": 3.01,
+        "amount_yi": 122.7
+      },
+      {
+        "code": "603993",
+        "name": "洛阳钼业",
+        "price": 17.79,
+        "change": 2.42,
+        "amount_yi": 58.5
+      },
+      {
+        "code": "300433",
+        "name": "蓝思科技",
+        "price": 29.27,
+        "change": 4.54,
+        "amount_yi": 19.5
+      },
+      {
+        "code": "002241",
+        "name": "歌尔股份",
+        "price": 23.21,
+        "change": 3.16,
+        "amount_yi": 18.2
+      },
+      {
+        "code": "002460",
+        "name": "赣锋锂业",
+        "price": 70.23,
+        "change": 1.47,
+        "amount_yi": 39.1
+      }
+    ],
+    "oversold": [
+      {
+        "code": "601857",
+        "name": "中国石油",
+        "price": 11.64,
+        "change": -2.92,
+        "amount_yi": 28.1
+      }
+    ],
+    "breakout": [
+      {
+        "code": "600104",
+        "name": "上汽集团",
+        "price": 14.48,
+        "change": 2.84,
+        "amount_yi": 7.5
+      },
+      {
+        "code": "601398",
+        "name": "工商银行",
+        "price": 7.33,
+        "change": 0.14,
+        "amount_yi": 20.3
+      },
+      {
+        "code": "600900",
+        "name": "长江电力",
+        "price": 27.16,
+        "change": 0.22,
+        "amount_yi": 20.2
+      },
+      {
+        "code": "002415",
+        "name": "海康威视",
+        "price": 30.7,
+        "change": 1.39,
+        "amount_yi": 8.2
+      },
+      {
+        "code": "600760",
+        "name": "中航沈飞",
+        "price": 48.67,
+        "change": 1.8,
+        "amount_yi": 6.4
+      }
+    ],
+    "large_cap": [
+      {
+        "code": "300433",
+        "name": "蓝思科技",
+        "price": 29.27,
+        "change": 4.54,
+        "amount_yi": 19.5
+      },
+      {
+        "code": "601899",
+        "name": "紫金矿业",
+        "price": 33.17,
+        "change": 3.01,
+        "amount_yi": 122.7
+      },
+      {
+        "code": "000977",
+        "name": "浪潮信息",
+        "price": 59.5,
+        "change": 2.48,
+        "amount_yi": 20.7
+      },
+      {
+        "code": "603993",
+        "name": "洛阳钼业",
+        "price": 17.79,
+        "change": 2.42,
+        "amount_yi": 58.5
+      },
+      {
+        "code": "002460",
+        "name": "赣锋锂业",
+        "price": 70.23,
+        "change": 1.47,
+        "amount_yi": 39.1
+      }
+    ]
+  }
+}

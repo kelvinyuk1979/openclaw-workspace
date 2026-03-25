@@ -1,0 +1,64 @@
+{
+  "balance": 7.11,
+  "initial": 143.85,
+  "pnl": 0.78,
+  "pnl_pct": 0.54,
+  "positions": [
+    {
+      "symbol": "BTC",
+      "amount": 0.00094659,
+      "avg_price": 70525,
+      "side": "LONG",
+      "cost": 66.74,
+      "current_price": 70628,
+      "pnl_pct": 0.15
+    },
+    {
+      "symbol": "ETH",
+      "amount": 0.03280117,
+      "avg_price": 2133,
+      "side": "LONG",
+      "cost": 70.0,
+      "current_price": 2157,
+      "pnl_pct": 1.12
+    }
+  ],
+  "positions_raw": {
+    "BTC": {
+      "symbol": "BTC",
+      "side": "LONG",
+      "amount": 0.00094659,
+      "avg_price": 70525,
+      "entry_time": "2026-03-23T12:18:00+08:00",
+      "cost": 66.74,
+      "current_price": 70652,
+      "pnl_pct": 0.18
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "side": "LONG",
+      "amount": 0.03280117,
+      "avg_price": 2133,
+      "entry_time": "2026-03-23T12:18:00+08:00",
+      "cost": 70.0,
+      "current_price": 2151,
+      "pnl_pct": 0.84
+    }
+  },
+  "signals": [
+    {
+      "symbol": "BTC-USDT",
+      "price": 70637.0,
+      "rsi": 76.4,
+      "signal": "HOLD",
+      "confidence": 0
+    },
+    {
+      "symbol": "ETH-USDT",
+      "price": 2156.02,
+      "rsi": 73.7,
+      "signal": "HOLD",
+      "confidence": 0
+    }
+  ]
+}

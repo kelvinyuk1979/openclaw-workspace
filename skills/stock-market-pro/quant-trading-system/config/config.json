@@ -1,0 +1,11 @@
+{
+  "system_name": "OKX 量化交易系统",
+  "mode": "live",
+  "initial_capital": 143.85,
+  "risk_control": {
+    "stop_loss_pct": -5,
+    "take_profit_pct": 10,
+    "max_position_pct": 40
+  },
+  "check_interval_minutes": 5
+}

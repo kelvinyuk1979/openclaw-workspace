@@ -19,10 +19,14 @@ OKX_DIR = WORKSPACE / 'skills' / 'stock-market-pro' / 'quant-trading-system'
 
 
 def load_json(path: Path, default=None):
-    """加载 JSON 文件"""
+    """加载 JSON 文件（带容错）"""
     if path.exists():
-        with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, Exception) as e:
+            print(f"⚠️ JSON 解析失败 {path}: {e}")
+            return default or {}
     return default or {}
 
 

@@ -319,8 +319,35 @@ class OKXClient:
             print(f"⚠️ 撤单失败：{e}")
             return {'success': False, 'error': str(e)}
     
+    def get_spot_positions(self):
+        """获取现货持仓（从余额查询）"""
+        try:
+            data = self.request('GET', '/api/v5/account/balance')
+            positions = {}
+            for item in data:
+                details = item.get('details', [])
+                for d in details:
+                    ccy = d.get('ccy', '')
+                    eq = d.get('eq', '0')  # 权益（持仓数量）
+                    if ccy in ['BTC', 'ETH'] and float(eq or 0) > 0:
+                        # 获取当前价格
+                        ticker = self.request('GET', f'/api/v5/market/ticker?instId={ccy}-USDT')
+                        price = float(ticker[0]['last']) if ticker else 0
+                        positions[ccy] = {
+                            'side': 'LONG',
+                            'size': float(eq),
+                            'entry_price': 0,  # 现货余额不显示成本价
+                            'current_price': price,
+                            'pnl': 0,
+                            'pnl_pct': 0
+                        }
+            return positions
+        except Exception as e:
+            print(f"⚠️ 获取现货持仓失败：{e}")
+            return {}
+    
     def get_positions(self):
-        """获取持仓"""
+        """获取持仓（合约/杠杆）"""
         try:
             data = self.request('GET', '/api/v5/account/positions')
             positions = {}

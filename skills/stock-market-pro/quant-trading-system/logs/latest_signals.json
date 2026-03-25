@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-03-25T10:10:10+08:00",
+  "signals": [
+    {"symbol": "BTC-USDT", "price": 70637.00, "rsi": 76.4, "signal": "HOLD", "confidence": 0},
+    {"symbol": "ETH-USDT", "price": 2156.02, "rsi": 73.7, "signal": "HOLD", "confidence": 0}
+  ],
+  "decision": "HOLD",
+  "reason": "已达最大持仓数，保持观望"
+}
