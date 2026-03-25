@@ -142,7 +142,7 @@ def get_ashare_data():
 
 
 def get_tradingview_data():
-    """获取 TradingView 深度分析数据（PE/市值/技术信号/股息率）"""
+    """获取 TradingView 深度分析数据（优化版：3 次 API 调用代替 21 次）"""
     import subprocess
     
     RAPIDAPI_KEY = "9c5420d125msh613da73e04513e8p191bb9jsn1a2af314f994"
@@ -159,20 +159,20 @@ def get_tradingview_data():
             "params": {"name": method_name, "arguments": arguments}
         })
         p = subprocess.run([
-            "curl", "-s", "--max-time", "12",
+            "curl", "-s", "--max-time", "15",
             "-X", "POST",
             "-H", f"Authorization: Bearer {jwt}",
             "-H", "Content-Type: application/json",
             "-H", "Accept: application/json, text/event-stream",
             "https://mcp.tradingviewapi.com/mcp",
             "-d", payload
-        ], capture_output=True, text=True, timeout=15)
+        ], capture_output=True, text=True, timeout=20)
         result = _json.loads(p.stdout)
         content = result["result"]["content"][0]["text"]
         return _json.loads(content)
     
     try:
-        # 1. 获取 JWT
+        # 1. 获取 JWT（1 次调用）
         p = subprocess.run([
             "curl", "-s", "--max-time", "10",
             "-X", "POST",
@@ -184,40 +184,53 @@ def get_tradingview_data():
         ], capture_output=True, text=True, timeout=15)
         jwt = json.loads(p.stdout)["token"]
         
-        # 2. 逐个获取报价 + 技术分析
+        # 2. 批量获取报价（1 次调用，最多 10 只）
+        batch_result = _call_mcp(jwt, "tradingview_get_quote_batch", {
+            "symbols": TV_SYMBOLS,
+            "response_format": "json"
+        })
+        # batch 返回 {total, successful, failed, data: [{success, symbol, data: {...}}, ...]}
+        quotes_map = {}
+        for item in batch_result.get("data", []):
+            if isinstance(item, dict) and item.get("success"):
+                quotes_map[item["symbol"]] = item.get("data", {})
+        
+        # 3. 逐个获取技术分析（TA 无 batch 接口）
         stocks = []
         for sym in TV_SYMBOLS:
+            d = quotes_map.get(sym, {})
+            if not d or not d.get("lp"):
+                continue
+            
+            # 技术分析
+            ta_signal = "N/A"
+            ta_score = 0
             try:
-                quote = _call_mcp(jwt, "tradingview_get_quote", {"symbol": sym, "response_format": "json"})
-                d = quote.get("data", quote)
-                
-                # 技术分析信号
                 ta = _call_mcp(jwt, "tradingview_get_ta", {"symbol": sym, "response_format": "json"})
                 ta_daily = ta.get("ta", {}).get("1D", {})
-                ta_all = ta_daily.get("All", 0)
+                ta_score = ta_daily.get("All", 0)
                 
-                # 信号解读
-                if ta_all <= -0.5: signal = "强买入"
-                elif ta_all <= -0.1: signal = "买入"
-                elif ta_all <= 0.1: signal = "中性"
-                elif ta_all <= 0.5: signal = "卖出"
-                else: signal = "强卖出"
-                
-                stocks.append({
-                    "symbol": sym,
-                    "name": d.get("local_description", d.get("description", sym)),
-                    "price": d.get("lp", 0),
-                    "change": d.get("chp", 0),
-                    "pe": d.get("price_earnings_ttm", 0),
-                    "market_cap": d.get("market_cap_basic", 0),
-                    "dividend_yield": d.get("dividends_yield", 0),
-                    "week52_high": d.get("price_52_week_high", 0),
-                    "week52_low": d.get("price_52_week_low", 0),
-                    "ta_signal": signal,
-                    "ta_score": ta_all,
-                })
+                if ta_score <= -0.5: ta_signal = "强买入"
+                elif ta_score <= -0.1: ta_signal = "买入"
+                elif ta_score <= 0.1: ta_signal = "中性"
+                elif ta_score <= 0.5: ta_signal = "卖出"
+                else: ta_signal = "强卖出"
             except Exception:
-                continue
+                pass
+            
+            stocks.append({
+                "symbol": sym,
+                "name": d.get("local_description", d.get("description", sym)),
+                "price": d.get("lp", 0),
+                "change": d.get("chp", 0),
+                "pe": d.get("price_earnings_ttm", 0),
+                "market_cap": d.get("market_cap_basic", 0),
+                "dividend_yield": d.get("dividends_yield", 0),
+                "week52_high": d.get("price_52_week_high", 0),
+                "week52_low": d.get("price_52_week_low", 0),
+                "ta_signal": ta_signal,
+                "ta_score": ta_score,
+            })
         
         return {"source": "live", "stocks": stocks}
     except Exception as e:
