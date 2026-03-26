@@ -1,0 +1,8 @@
+
+# 钱包和安全配置
+**/wallet_config.json
+**/config.json
+**/.env
+**/*.pem
+**/private_key*
+**/secret*

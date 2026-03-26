@@ -1,5 +1,5 @@
 {
-  "last_scan": "2026-03-25T15:30:00.420557",
+  "last_scan": "2026-03-26T14:00:00.590194",
   "results": {
     "technical": {
       "signals": [
@@ -30,7 +30,7 @@
         "stocks_scanned": 5,
         "buy_signals": 0,
         "sell_signals": 2,
-        "last_scan": "2026-03-25 15:30:00"
+        "last_scan": "2026-03-26 14:00:00"
       }
     },
     "fundamental": {
@@ -62,7 +62,7 @@
         "stocks_scanned": 5,
         "buy_signals": 0,
         "sell_signals": 2,
-        "last_scan": "2026-03-25 15:30:00"
+        "last_scan": "2026-03-26 14:00:00"
       }
     },
     "sentiment": {
@@ -94,7 +94,7 @@
         "stocks_scanned": 5,
         "buy_signals": 0,
         "sell_signals": 2,
-        "last_scan": "2026-03-25 15:30:00"
+        "last_scan": "2026-03-26 14:00:00"
       }
     }
   }

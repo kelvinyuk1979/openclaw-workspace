@@ -1,0 +1,8 @@
+{
+  "wallet_address": "0x099fCE3812cb2c8fb76D11Cc804832235e4F174b",
+  "private_key": "0x9f7c71e46cb2d22917d6727b0ffc70c92d2bb309a39886a274ef43ab1969b3ce",
+  "proxy": "http://127.0.0.1:3213",
+  "polygon_rpc": "https://polygon-bor.publicnode.com",
+  "chain_id": 137,
+  "note": "Astrill VPN 代理用于访问 Polymarket API，Polygon RPC 直连"
+}
