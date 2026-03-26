@@ -1,0 +1,16 @@
+{
+  "wallet_address": "0x4d392Ed1b9b8c830A4aCF7A997B851b20d9e96eb",
+  "private_key": "2f25c082e3bc01194a04da94e07f45ffdb4d4dde8f12316af7e98afdae44f827",
+  "created_at": "2026-03-26T17:52:00",
+  "network": "Polygon",
+  "chain_id": 137,
+  "polygon_rpc": "https://polygon-bor.publicnode.com",
+  "proxy": "http://127.0.0.1:3213",
+  "note": "新钱包 - 2026-03-26 生成（旧钱包 0x099fCE38... 私钥泄露被盗）",
+  "security_notes": [
+    "⚠️ 此文件必须加入 .gitignore",
+    "⚠️ 永远不要提交到 git",
+    "⚠️ 永远不要硬编码私钥到代码",
+    "⚠️ 使用环境变量或加密存储"
+  ]
+}
