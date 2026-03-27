@@ -2,79 +2,7 @@
   "signals": [
     {
       "symbol": "BTC-USDT",
-      "price": 71723.8,
-      "signal": "HOLD",
-      "confidence": 0,
-      "votes": {
-        "long": 2,
-        "short": 0,
-        "hold": 2
-      },
-      "indicators": {
-        "rsi": 55.27,
-        "macd": 179.3711,
-        "ma20": 71276.84,
-        "ma50": 71153.38
-      },
-      "strategies": [
-        [
-          "动量",
-          "HOLD"
-        ],
-        [
-          "均值回归",
-          "HOLD"
-        ],
-        [
-          "MACD",
-          "LONG"
-        ],
-        [
-          "趋势",
-          "LONG"
-        ]
-      ],
-      "timestamp": "2026-03-26T21:31:53.819740"
-    },
-    {
-      "symbol": "ETH-USDT",
-      "price": 2183.48,
-      "signal": "HOLD",
-      "confidence": 0,
-      "votes": {
-        "long": 2,
-        "short": 0,
-        "hold": 2
-      },
-      "indicators": {
-        "rsi": 55.83,
-        "macd": 4.989,
-        "ma20": 2174.02,
-        "ma50": 2170.14
-      },
-      "strategies": [
-        [
-          "动量",
-          "HOLD"
-        ],
-        [
-          "均值回归",
-          "HOLD"
-        ],
-        [
-          "MACD",
-          "LONG"
-        ],
-        [
-          "趋势",
-          "LONG"
-        ]
-      ],
-      "timestamp": "2026-03-26T21:31:54.000334"
-    },
-    {
-      "symbol": "SOL-USDT",
-      "price": 93.04,
+      "price": 69817.1,
       "signal": "HOLD",
       "confidence": 0,
       "votes": {
@@ -83,10 +11,10 @@
         "hold": 1
       },
       "indicators": {
-        "rsi": 60.55,
-        "macd": 0.3424,
-        "ma20": 92.26,
-        "ma50": 91.87
+        "rsi": 67.49,
+        "macd": 189.7924,
+        "ma20": 69596.88,
+        "ma50": 69223.14
       },
       "strategies": [
         [
@@ -106,28 +34,100 @@
           "LONG"
         ]
       ],
-      "timestamp": "2026-03-26T21:31:54.578064"
+      "timestamp": "2026-03-27T17:14:06.260789"
     },
     {
-      "symbol": "XRP-USDT",
-      "price": 1.4223,
+      "symbol": "ETH-USDT",
+      "price": 2116.01,
       "signal": "HOLD",
       "confidence": 0,
       "votes": {
         "long": 2,
-        "short": 0,
-        "hold": 2
+        "short": 2,
+        "hold": 0
       },
       "indicators": {
-        "rsi": 56.03,
-        "macd": 0.0027,
-        "ma20": 1.42,
-        "ma50": 1.41
+        "rsi": 81.19,
+        "macd": 12.2534,
+        "ma20": 2086.07,
+        "ma50": 2072.38
       },
       "strategies": [
         [
           "动量",
-          "HOLD"
+          "SHORT"
+        ],
+        [
+          "均值回归",
+          "SHORT"
+        ],
+        [
+          "MACD",
+          "LONG"
+        ],
+        [
+          "趋势",
+          "LONG"
+        ]
+      ],
+      "timestamp": "2026-03-27T17:14:06.773116"
+    },
+    {
+      "symbol": "SOL-USDT",
+      "price": 88.69,
+      "signal": "HOLD",
+      "confidence": 0,
+      "votes": {
+        "long": 2,
+        "short": 2,
+        "hold": 0
+      },
+      "indicators": {
+        "rsi": 74.56,
+        "macd": 0.3759,
+        "ma20": 88.08,
+        "ma50": 87.4
+      },
+      "strategies": [
+        [
+          "动量",
+          "SHORT"
+        ],
+        [
+          "均值回归",
+          "SHORT"
+        ],
+        [
+          "MACD",
+          "LONG"
+        ],
+        [
+          "趋势",
+          "LONG"
+        ]
+      ],
+      "timestamp": "2026-03-27T17:14:07.256026"
+    },
+    {
+      "symbol": "XRP-USDT",
+      "price": 1.382,
+      "signal": "HOLD",
+      "confidence": 0,
+      "votes": {
+        "long": 2,
+        "short": 1,
+        "hold": 1
+      },
+      "indicators": {
+        "rsi": 65.95,
+        "macd": 0.0037,
+        "ma20": 1.38,
+        "ma50": 1.37
+      },
+      "strategies": [
+        [
+          "动量",
+          "SHORT"
         ],
         [
           "均值回归",
@@ -142,8 +142,8 @@
           "LONG"
         ]
       ],
-      "timestamp": "2026-03-26T21:31:56.240808"
+      "timestamp": "2026-03-27T17:14:07.737190"
     }
   ],
-  "timestamp": "2026-03-26T21:31:56.243861"
+  "timestamp": "2026-03-27T17:14:07.737600"
 }

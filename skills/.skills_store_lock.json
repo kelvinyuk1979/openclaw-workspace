@@ -6,6 +6,72 @@
       "zip_url": "https://lightmake.site/api/v1/download?slug=ontology",
       "source": "skillhub",
       "version": "0.1.2"
+    },
+    "openclaw-tavily-search": {
+      "name": "Tavily 搜索",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=openclaw-tavily-search",
+      "source": "skillhub",
+      "version": "0.1.0"
+    },
+    "agent-browser": {
+      "name": "Agent Browser",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=agent-browser",
+      "source": "skillhub",
+      "version": "0.2.0"
+    },
+    "desktop-control": {
+      "name": "Desktop Control",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=desktop-control",
+      "source": "skillhub",
+      "version": "1.0.0"
+    },
+    "cron-mastery": {
+      "name": "Cron Mastery",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=cron-mastery",
+      "source": "skillhub",
+      "version": "1.0.3"
+    },
+    "skill-creator": {
+      "name": "Skill Creator",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=skill-creator",
+      "source": "skillhub",
+      "version": "0.1.0"
+    },
+    "remotion-video-toolkit": {
+      "name": "Remotion Video Toolkit",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=remotion-video-toolkit",
+      "source": "skillhub",
+      "version": "1.4.0"
+    },
+    "polymarket-odds": {
+      "name": "Polymarket Odds",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=polymarket-odds",
+      "source": "skillhub",
+      "version": "1.0.0"
+    },
+    "polymarket-agent": {
+      "name": "Polymarket Agent",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=polymarket-agent",
+      "source": "skillhub",
+      "version": "1.0.2"
+    },
+    "polymarket-fast-loop": {
+      "name": "Polymarket Fast Loop",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=polymarket-fast-loop",
+      "source": "skillhub",
+      "version": "1.3.4"
+    },
+    "polymarket-analysis": {
+      "name": "Polymarket Analysis",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=polymarket-analysis",
+      "source": "skillhub",
+      "version": "2.1.0"
+    },
+    "polymarket-auto-trader": {
+      "name": "Polymarket Auto-Trader",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=polymarket-auto-trader",
+      "source": "skillhub",
+      "version": "1.0.1"
     }
   }
 }

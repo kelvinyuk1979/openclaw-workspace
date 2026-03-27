@@ -24,6 +24,50 @@
     "ontology": {
       "version": "0.1.2",
       "installedAt": 1774233659150
+    },
+    "openclaw-tavily-search": {
+      "version": "0.1.0",
+      "installedAt": 1774532211188
+    },
+    "agent-browser": {
+      "version": "0.2.0",
+      "installedAt": 1774532319226
+    },
+    "desktop-control": {
+      "version": "1.0.0",
+      "installedAt": 1774532384889
+    },
+    "cron-mastery": {
+      "version": "1.0.3",
+      "installedAt": 1774532441707
+    },
+    "skill-creator": {
+      "version": "0.1.0",
+      "installedAt": 1774532486831
+    },
+    "remotion-video-toolkit": {
+      "version": "1.4.0",
+      "installedAt": 1774532533195
+    },
+    "polymarket-odds": {
+      "version": "1.0.0",
+      "installedAt": 1774532638169
+    },
+    "polymarket-agent": {
+      "version": "1.0.2",
+      "installedAt": 1774532670560
+    },
+    "polymarket-fast-loop": {
+      "version": "1.3.4",
+      "installedAt": 1774532694939
+    },
+    "polymarket-analysis": {
+      "version": "2.1.0",
+      "installedAt": 1774532719581
+    },
+    "polymarket-auto-trader": {
+      "version": "1.0.1",
+      "installedAt": 1774532740909
     }
   }
 }

@@ -15,43 +15,5 @@
 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5002
- * Running on http://192.168.3.85:5002
+ * Running on http://192.168.3.90:5002
 [33mPress CTRL+C to quit[0m
-127.0.0.1 - - [25/Mar/2026 10:06:43] "GET /api/okx/status HTTP/1.1" 200 -
-127.0.0.1 - - [25/Mar/2026 10:11:48] "GET /api/okx/status HTTP/1.1" 200 -
-[2026-03-25 13:50:47,374] ERROR in app: Exception on / [GET]
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.14/site-packages/flask/app.py", line 1511, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/opt/homebrew/lib/python3.14/site-packages/flask/app.py", line 919, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/opt/homebrew/lib/python3.14/site-packages/flask/app.py", line 917, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/opt/homebrew/lib/python3.14/site-packages/flask/app.py", line 902, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "/Users/kelvin/.openclaw/workspace/unified-trading-dashboard/web_server.py", line 52, in dashboard
-    return render_template('unified_dashboard.html',
-        poly_config=poly_config,
-    ...<9 lines>...
-        last_update=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    )
-  File "/opt/homebrew/lib/python3.14/site-packages/flask/templating.py", line 151, in render_template
-    return _render(app, template, context)
-  File "/opt/homebrew/lib/python3.14/site-packages/flask/templating.py", line 132, in _render
-    rv = template.render(context)
-  File "/opt/homebrew/lib/python3.14/site-packages/jinja2/environment.py", line 1295, in render
-    self.environment.handle_exception()
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/lib/python3.14/site-packages/jinja2/environment.py", line 942, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/kelvin/.openclaw/workspace/unified-trading-dashboard/templates/unified_dashboard.html", line 259, in top-level template code
-    L:{{ signal.votes.momentum == 'BUY' or signal.votes.mean_reversion == 'BUY' or signal.votes.macd_signal == 'BUY' or signal.votes.super_trend == 'BUY' }}
-    
-  File "/opt/homebrew/lib/python3.14/site-packages/jinja2/environment.py", line 490, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'dict object' has no attribute 'votes'
-127.0.0.1 - - [25/Mar/2026 13:50:47] "[35m[1mGET / HTTP/1.1[0m" 500 -
-127.0.0.1 - - [25/Mar/2026 13:50:47] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
-127.0.0.1 - - [25/Mar/2026 13:50:47] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
-127.0.0.1 - - [25/Mar/2026 13:50:47] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -

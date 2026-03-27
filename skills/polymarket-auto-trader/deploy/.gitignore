@@ -1,0 +1,8 @@
+# Deploy directory - ignore
+.env
+*.log
+trades.jsonl
+budget_spent.txt
+health_status.json
+__pycache__/
+*.pyc
