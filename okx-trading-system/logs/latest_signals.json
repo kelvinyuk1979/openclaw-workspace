@@ -1,4 +1,149 @@
 {
-  "signals": [],
-  "timestamp": "2026-03-29T13:27:54.432424"
+  "signals": [
+    {
+      "symbol": "BTC-USDT",
+      "price": 66734.0,
+      "signal": "HOLD",
+      "confidence": 0,
+      "votes": {
+        "long": 2,
+        "short": 1,
+        "hold": 1
+      },
+      "indicators": {
+        "rsi": 62.46,
+        "macd": 61.1198,
+        "ma20": 66560.0,
+        "ma50": 66432.19
+      },
+      "strategies": [
+        [
+          "动量",
+          "SHORT"
+        ],
+        [
+          "均值回归",
+          "HOLD"
+        ],
+        [
+          "MACD",
+          "LONG"
+        ],
+        [
+          "趋势",
+          "LONG"
+        ]
+      ],
+      "timestamp": "2026-03-30T21:21:06.822214"
+    },
+    {
+      "symbol": "ETH-USDT",
+      "price": 1999.44,
+      "signal": "HOLD",
+      "confidence": 0,
+      "votes": {
+        "long": 1,
+        "short": 0,
+        "hold": 3
+      },
+      "indicators": {
+        "rsi": 56.46,
+        "macd": -0.7335,
+        "ma20": 1994.09,
+        "ma50": 1994.59
+      },
+      "strategies": [
+        [
+          "动量",
+          "HOLD"
+        ],
+        [
+          "均值回归",
+          "HOLD"
+        ],
+        [
+          "MACD",
+          "LONG"
+        ],
+        [
+          "趋势",
+          "HOLD"
+        ]
+      ],
+      "timestamp": "2026-03-30T21:21:07.580291"
+    },
+    {
+      "symbol": "SOL-USDT",
+      "price": 82.25,
+      "signal": "HOLD",
+      "confidence": 0,
+      "votes": {
+        "long": 2,
+        "short": 1,
+        "hold": 1
+      },
+      "indicators": {
+        "rsi": 60.16,
+        "macd": 0.0991,
+        "ma20": 81.87,
+        "ma50": 81.74
+      },
+      "strategies": [
+        [
+          "动量",
+          "SHORT"
+        ],
+        [
+          "均值回归",
+          "HOLD"
+        ],
+        [
+          "MACD",
+          "LONG"
+        ],
+        [
+          "趋势",
+          "LONG"
+        ]
+      ],
+      "timestamp": "2026-03-30T21:21:07.758930"
+    },
+    {
+      "symbol": "XRP-USDT",
+      "price": 1.3337,
+      "signal": "HOLD",
+      "confidence": 0,
+      "votes": {
+        "long": 2,
+        "short": 1,
+        "hold": 1
+      },
+      "indicators": {
+        "rsi": 65.84,
+        "macd": 0.0016,
+        "ma20": 1.33,
+        "ma50": 1.32
+      },
+      "strategies": [
+        [
+          "动量",
+          "SHORT"
+        ],
+        [
+          "均值回归",
+          "HOLD"
+        ],
+        [
+          "MACD",
+          "LONG"
+        ],
+        [
+          "趋势",
+          "LONG"
+        ]
+      ],
+      "timestamp": "2026-03-30T21:21:07.942166"
+    }
+  ],
+  "timestamp": "2026-03-30T21:21:07.942598"
 }
