@@ -68,6 +68,10 @@
     "polymarket-auto-trader": {
       "version": "1.0.1",
       "installedAt": 1774532740909
+    },
+    "multi-agent-cn": {
+      "version": "1.2.0",
+      "installedAt": 1774758920630
     }
   }
 }

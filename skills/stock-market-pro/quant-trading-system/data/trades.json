@@ -62,5 +62,27 @@
     "price": 67939.72,
     "size": 1206.9735121095343,
     "timestamp": "2026-03-23T09:58:35.414984"
+  },
+  {
+    "symbol": "BTC",
+    "side": "LONG",
+    "entry_price": 70525,
+    "exit_price": 66790.28,
+    "amount": 0.00094659,
+    "pnl": -3.535248604800001,
+    "pnl_pct": -0.052955973059198885,
+    "exit_time": "2026-03-29T12:35:00+08:00",
+    "reason": "stop_loss"
+  },
+  {
+    "symbol": "ETH",
+    "side": "LONG",
+    "entry_price": 2133,
+    "exit_price": 2005.74,
+    "amount": 0.03280117,
+    "pnl": -4.174276894199999,
+    "pnl_pct": -0.05966244725738396,
+    "exit_time": "2026-03-29T12:35:00+08:00",
+    "reason": "stop_loss"
   }
 ]
