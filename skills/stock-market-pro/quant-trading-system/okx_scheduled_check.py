@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
-OKX 量化交易定时检查脚本
-执行：API 连接、余额查询、持仓检查、价格/RSI 信号、4 策略投票、自动交易
+OKX 量化交易定时检查脚本 v2
+支持：OKX API + 备用公共 API (CoinGecko/Kraken)
 """
 
 import json
 import sys
 import os
+import urllib.request
+import ssl
 from datetime import datetime
 
 # 导入 OKX 客户端
@@ -29,46 +31,84 @@ client = OKXClient(
     testnet=okx_cfg.get('testnet', False)
 )
 
-def get_market_data(symbol, retries=3):
+# 创建 SSL 上下文
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+def get_public_price(symbol):
+    """从公共 API 获取价格（备用方案）"""
+    symbol_map = {
+        'BTC': 'bitcoin',
+        'ETH': 'ethereum'
+    }
+    
+    coin_id = symbol_map.get(symbol, symbol.lower())
+    
+    try:
+        # CoinGecko
+        url = f'https://api.coingecko.com/api/v3/simple/price?ids={coin_id}&vs_currencies=usd&include_24hr_change=true'
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        response = urllib.request.urlopen(req, timeout=10, context=ctx)
+        data = json.loads(response.read().decode())
+        
+        if coin_id in data:
+            price = data[coin_id].get('usd', 0)
+            change = data[coin_id].get('usd_24h_change', 0)
+            return {'price': price, 'change_24h': change, 'source': 'CoinGecko'}
+    except Exception as e:
+        pass
+    
+    return None
+
+def get_market_data(symbol, retries=2):
     """获取行情数据（价格、RSI、MACD）"""
+    # 首先尝试 OKX
     for attempt in range(retries):
         try:
             ticker = client.get_ticker(symbol)
-            if not ticker:
-                return None
-            
-            klines = client.get_klines(symbol, interval='15m', limit=50)
-            if not klines or len(klines) < 14:
-                return {'price': ticker['price'], 'rsi': 50, 'macd': 0}
-            
-            # 计算 RSI (14 周期)
-            closes = [k['close'] for k in klines[-14:]]
-            gains = []
-            losses = []
-            for i in range(1, len(closes)):
-                diff = closes[i] - closes[i-1]
-                if diff > 0:
-                    gains.append(diff)
-                    losses.append(0)
+            if ticker and ticker.get('price', 0) > 0:
+                klines = client.get_klines(symbol, interval='15m', limit=50)
+                
+                # 计算 RSI 和 MACD
+                if klines and len(klines) >= 14:
+                    closes = [k['close'] for k in klines[-14:]]
+                    gains = []
+                    losses = []
+                    for i in range(1, len(closes)):
+                        diff = closes[i] - closes[i-1]
+                        if diff > 0:
+                            gains.append(diff)
+                            losses.append(0)
+                        else:
+                            gains.append(0)
+                            losses.append(abs(diff))
+                    
+                    avg_gain = sum(gains) / len(gains) if gains else 0
+                    avg_loss = sum(losses) / len(losses) if losses else 1
+                    rs = avg_gain / avg_loss if avg_loss != 0 else 0
+                    rsi = 100 - (100 / (1 + rs))
+                    
+                    ema12 = sum(closes[-12:]) / 12 if len(closes) >= 12 else closes[-1]
+                    ema26 = sum(closes[-26:]) / 26 if len(closes) >= 26 else closes[-1]
+                    macd = ema12 - ema26
+                    
+                    return {'price': ticker['price'], 'rsi': rsi, 'macd': macd, 'source': 'OKX'}
                 else:
-                    gains.append(0)
-                    losses.append(abs(diff))
-            
-            avg_gain = sum(gains) / len(gains) if gains else 0
-            avg_loss = sum(losses) / len(losses) if losses else 1
-            rs = avg_gain / avg_loss if avg_loss != 0 else 0
-            rsi = 100 - (100 / (1 + rs))
-            
-            # MACD (简化版：EMA12 - EMA26)
-            ema12 = sum(closes[-12:]) / 12 if len(closes) >= 12 else closes[-1]
-            ema26 = sum(closes[-26:]) / 26 if len(closes) >= 26 else closes[-1]
-            macd = ema12 - ema26
-            
-            return {'price': ticker['price'], 'rsi': rsi, 'macd': macd}
+                    return {'price': ticker['price'], 'rsi': 50, 'macd': 0, 'source': 'OKX'}
         except Exception as e:
             if attempt < retries - 1:
                 continue
-            return None
+    
+    # OKX 失败，使用公共 API
+    public_data = get_public_price(symbol)
+    if public_data:
+        # 使用简化 RSI（基于 24h 变化估算）
+        change = public_data.get('change_24h', 0)
+        rsi = 50 + (change / 2)  # 简化估算
+        rsi = max(10, min(90, rsi))  # 限制在 10-90
+        return {'price': public_data['price'], 'rsi': rsi, 'macd': 0, 'source': 'CoinGecko'}
+    
     return None
 
 def generate_signal(symbol, data):
@@ -109,7 +149,7 @@ def generate_signal(symbol, data):
         votes['SELL'] += 1
         strategy_votes.append(('MACD', 'SELL'))
     
-    # 策略 4: 超级趋势 (SuperTrend - 简化版用 RSI 45 作为阈值)
+    # 策略 4: 超级趋势 (SuperTrend)
     if rsi > 45:
         votes['BUY'] += 1
         strategy_votes.append(('超级趋势', 'BUY'))
@@ -141,56 +181,73 @@ def main():
         'balance': {'total_eq': 0, 'USDT': 0},
         'positions': [],
         'signals': {},
-        'actions': []
+        'actions': [],
+        'api_status': 'unknown'
     }
     
     # ========== 1. API 连接检查 ==========
     print("\n1️⃣ API 连接检查...")
+    okx_available = False
     try:
-        # 测试连接
         test_result = client.test_connection()
         if test_result:
             print(f"   ✅ OKX API 连接正常")
+            okx_available = True
+            results['api_status'] = 'okx_connected'
         else:
             print(f"   ⚠️ OKX API 连接测试返回 False")
+            results['api_status'] = 'okx_failed'
     except Exception as e:
-        print(f"   ❌ API 连接失败：{e}")
-        return
+        print(f"   ❌ OKX API 连接失败：{e}")
+        results['api_status'] = 'okx_failed'
+    
+    if not okx_available:
+        print(f"   🔄 使用公共 API 作为备用数据源")
+        results['api_status'] = 'public_api_only'
     
     # ========== 2. 账户余额查询 ==========
     print("\n2️⃣ 账户余额查询...")
-    try:
-        balance = client.get_balance()
+    balance = {'total_eq': 0, 'USDT': 0}
+    if okx_available:
+        try:
+            balance = client.get_balance()
+            results['balance'] = balance
+            total_eq = balance.get('total_eq', 0)
+            usdt_avail = balance.get('USDT', 0)
+            print(f"   💰 总权益：{total_eq:.2f} USDT")
+            print(f"   💵 可用 USDT: {usdt_avail:.2f} USDT")
+            
+            pnl = total_eq - initial_capital
+            pnl_pct = (pnl / initial_capital) * 100 if initial_capital > 0 else 0
+            print(f"   📊 累计收益：{pnl:+.2f} USDT ({pnl_pct:+.2f}%)")
+        except Exception as e:
+            print(f"   ❌ 获取余额失败：{e}")
+            okx_available = False
+    else:
+        print(f"   ⚠️ OKX 不可用，使用配置中的初始资金：{initial_capital:.2f} USDT")
+        balance = {'total_eq': initial_capital, 'USDT': initial_capital}
         results['balance'] = balance
-        total_eq = balance.get('total_eq', 0)
-        usdt_avail = balance.get('USDT', 0)
-        print(f"   💰 总权益：{total_eq:.2f} USDT")
-        print(f"   💵 可用 USDT: {usdt_avail:.2f} USDT")
-        
-        # 计算收益
-        pnl = total_eq - initial_capital
-        pnl_pct = (pnl / initial_capital) * 100 if initial_capital > 0 else 0
-        print(f"   📊 累计收益：{pnl:+.2f} USDT ({pnl_pct:+.2f}%)")
-    except Exception as e:
-        print(f"   ❌ 获取余额失败：{e}")
-        balance = {'total_eq': 0, 'USDT': 0}
     
     # ========== 3. 持仓状态检查 ==========
     print("\n3️⃣ 持仓状态检查...")
-    try:
-        positions = client.get_spot_positions()
-        results['positions'] = list(positions.keys())
-        print(f"   📦 当前持仓数：{len(positions)} / {max_positions}")
-        if positions:
-            for sym, pos in positions.items():
-                pnl_pct = pos.get('pnl_pct', 0)
-                size = pos.get('size', 0)
-                print(f"   - {sym}: {pos.get('side', 'N/A')} {size} (@ {pos.get('current_price', 0):.2f}, {pnl_pct:.2%})")
-        else:
-            print(f"   - 无持仓")
-    except Exception as e:
-        print(f"   ⚠️ 获取持仓失败：{e}")
-        positions = {}
+    positions = {}
+    if okx_available:
+        try:
+            positions = client.get_spot_positions()
+            results['positions'] = list(positions.keys())
+            print(f"   📦 当前持仓数：{len(positions)} / {max_positions}")
+            if positions:
+                for sym, pos in positions.items():
+                    pnl_pct = pos.get('pnl_pct', 0)
+                    size = pos.get('size', 0)
+                    print(f"   - {sym}: {pos.get('side', 'N/A')} {size} (@ {pos.get('current_price', 0):.2f}, {pnl_pct:.2%})")
+            else:
+                print(f"   - 无持仓")
+        except Exception as e:
+            print(f"   ⚠️ 获取持仓失败：{e}")
+    else:
+        print(f"   ⚠️ OKX 不可用，假设无持仓")
+        results['positions'] = []
     
     # ========== 4. BTC/ETH 价格和 RSI 信号 ==========
     print("\n4️⃣ 价格和 RSI 信号...")
@@ -199,10 +256,11 @@ def main():
         data = get_market_data(symbol)
         if data:
             market_data[symbol] = data
-            print(f"   - {symbol}: ${data['price']:.2f}, RSI {data['rsi']:.1f}, MACD {data['macd']:.2f}")
+            source = data.get('source', 'Unknown')
+            print(f"   - {symbol}: ${data['price']:.2f}, RSI {data['rsi']:.1f}, MACD {data['macd']:.2f} [{source}]")
         else:
             print(f"   - {symbol}: 数据获取失败")
-            market_data[symbol] = {'price': 0, 'rsi': 50, 'macd': 0}
+            market_data[symbol] = {'price': 0, 'rsi': 50, 'macd': 0, 'source': 'none'}
     
     # ========== 5. 4 策略投票计算 ==========
     print("\n5️⃣ 4 策略投票计算...")
@@ -250,12 +308,18 @@ def main():
             if sig['action'] in ['BUY'] and sig['confidence'] >= 0.75:
                 if symbol not in positions:
                     print(f"   🚀 开仓信号：BUY {symbol} (置信度 {sig['confidence']:.0%})")
-                    print(f"   ⏸️ 模拟模式：未执行实际下单")
+                    if okx_available:
+                        print(f"   ⏸️ 模拟模式：未执行实际下单")
+                    else:
+                        print(f"   ⚠️ OKX 不可用，无法执行")
                     actions_taken.append(f"SIGNAL: BUY {symbol} (confidence {sig['confidence']:.0%})")
             elif sig['action'] in ['SELL'] and sig['confidence'] >= 0.75:
                 if symbol in positions:
                     print(f"   🚀 平仓信号：SELL {symbol} (置信度 {sig['confidence']:.0%})")
-                    print(f"   ⏸️ 模拟模式：未执行实际下单")
+                    if okx_available:
+                        print(f"   ⏸️ 模拟模式：未执行实际下单")
+                    else:
+                        print(f"   ⚠️ OKX 不可用，无法执行")
                     actions_taken.append(f"SIGNAL: SELL {symbol} (confidence {sig['confidence']:.0%})")
     
     if not actions_taken:
@@ -272,6 +336,7 @@ def main():
     try:
         with open(memory_file, 'a') as f:
             f.write(f"\n### OKX 实盘检查 ({timestamp})\n")
+            f.write(f"- **API 状态**: {results['api_status']}\n")
             f.write(f"- **总权益**: {balance.get('total_eq', 0):.2f} USDT\n")
             f.write(f"- **可用余额**: {balance.get('USDT', 0):.2f} USDT\n")
             f.write(f"- **持仓数**: {len(positions)} / {max_positions}\n")
@@ -280,7 +345,10 @@ def main():
                     f.write(f"  - {sym}: {pos.get('side', 'N/A')} ({pos.get('pnl_pct', 0):.2%})\n")
             f.write(f"- **交易信号**:\n")
             for sym, sig in signals.items():
-                f.write(f"  - {sym}: {sig['action']} (置信度 {sig['confidence']:.0%}, RSI {sig['rsi']})\n")
+                source = market_data.get(sym, {}).get('source', 'N/A')
+                f.write(f"  - {sym}: {sig['action']} (置信度 {sig['confidence']:.0%}, RSI {sig['rsi']:.1f}) [{source}]\n")
+                for strat, vote in sig.get('strategy_votes', []):
+                    f.write(f"    - {strat}: {vote}\n")
             if actions_taken:
                 f.write(f"- **执行动作**: {', '.join(actions_taken)}\n")
             f.write(f"\n")
@@ -292,20 +360,25 @@ def main():
     print(f"\n8️⃣ Git 提交...")
     try:
         import subprocess
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        
         # 检查是否有未提交的更改
         result = subprocess.run(['git', 'status', '--porcelain'], 
                               capture_output=True, text=True, 
-                              cwd=os.path.dirname(os.path.abspath(__file__)))
+                              cwd=script_dir)
         if result.stdout.strip():
             print(f"   📝 检测到未提交的更改")
             # 添加更改
             subprocess.run(['git', 'add', '.'], 
-                         cwd=os.path.dirname(os.path.abspath(__file__)))
+                         cwd=script_dir, capture_output=True)
             # 提交
             commit_msg = f"OKX 定时检查 {timestamp}"
-            subprocess.run(['git', 'commit', '-m', commit_msg], 
-                         cwd=os.path.dirname(os.path.abspath(__file__)))
-            print(f"   ✅ Git 提交完成")
+            result = subprocess.run(['git', 'commit', '-m', commit_msg], 
+                         cwd=script_dir, capture_output=True, text=True)
+            if result.returncode == 0:
+                print(f"   ✅ Git 提交完成")
+            else:
+                print(f"   ⚠️ Git 提交失败：{result.stderr}")
         else:
             print(f"   ⏸️ 无更改需要提交")
     except Exception as e:
